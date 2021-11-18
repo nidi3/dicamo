@@ -10,6 +10,10 @@ body {
     margin: 5px;
 }
 
+html, body {
+    height: 100%;
+}
+
 input, .options, table {
     font-size: 30px;
     width: 100%;
@@ -18,6 +22,20 @@ input, .options, table {
 .enc, .verb {
     font-weight: bold;
     font-size: 150%;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    background: repeating-linear-gradient(
+            #ff000008,
+            #ff000008 50px,
+            #ffff0008 50px,
+            #ffff0008 100px
+    );
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
 }
 
 .search {

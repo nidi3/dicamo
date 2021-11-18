@@ -86,3 +86,5 @@ class DicamoController {
         )
     ).get()
 }
+
+class Entry(val id: String?, val word: String)

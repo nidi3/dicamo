@@ -10,10 +10,6 @@ body {
     margin: 5px;
 }
 
-html, body {
-    height: 100%;
-}
-
 input, .options, table {
     font-size: 30px;
     width: 100%;
@@ -25,16 +21,17 @@ input, .options, table {
 }
 
 .background {
-    position: absolute;
+    position: fixed;
     top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     background: repeating-linear-gradient(
             #ff000008,
             #ff000008 50px,
             #ffff0008 50px,
             #ffff0008 100px
     );
-    height: 100%;
-    width: 100%;
     pointer-events: none;
 }
 

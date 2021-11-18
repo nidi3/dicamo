@@ -1,0 +1,36 @@
+html, input {
+    font-family: sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+input, .options, table {
+    font-size: 30px;
+    width: 100%;
+}
+
+.enc, .verb {
+    font-weight: bold;
+    font-size: 150%;
+}
+
+.search {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    height: 100px;
+    width: 50px;
+}
+
+.conjug tr td:nth-of-type(2) span:not(.verb), .conjug tr td:nth-of-type(3) span {
+    font-size: 15px;
+}
+
+.power {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 75%;
+}

@@ -1,0 +1,1 @@
+# Diccionari català mobile

@@ -1,9 +1,13 @@
+* {
+    box-sizing: border-box;
+}
+
 html, input {
     font-family: sans-serif;
 }
 
 body {
-    margin: 0;
+    margin: 5px;
 }
 
 input, .options, table {

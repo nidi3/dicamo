@@ -2,6 +2,7 @@ package guru.nidi.dicamo
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
@@ -18,16 +19,23 @@ private const val WORD_URL = "/lexicx.jsp?GECART="
 
 @Controller
 class DicamoController {
+    val log = LoggerFactory.getLogger(javaClass)
+
     @GetMapping(value = ["/query/{query}"], produces = ["application/json"])
     @ResponseBody
     fun query(@PathVariable query: String): List<Entry> {
-        val document = fetch(QUERY_URL, query)
-        if (document.head().childNodeSize() == 1) {
-            val script = document.head().childNode(0).childNode(0).toString()
-            return wordId(script)?.let { listOf(Entry(it, query)) } ?: listOf()
+        try {
+            val document = fetch(QUERY_URL, query)
+            if (document.head().childNodeSize() == 1) {
+                val script = document.head().childNode(0).childNode(0).toString()
+                return wordId(script)?.let { listOf(Entry(it, query)) } ?: listOf()
+            }
+            val words = document.select(".CentreTextTD table")[0].select("a")
+            return words.map { Entry(wordId(it.attr("href")), it.text()) }
+        } catch (e: Exception) {
+            log.error("Error querying {}", query, e)
+            return listOf(Entry(null, e.message ?: "Unknown error"))
         }
-        val words = document.select(".CentreTextTD table")[0].select("a")
-        return words.map { Entry(wordId(it.attr("href")), it.text()) }
     }
 
     @GetMapping("/")

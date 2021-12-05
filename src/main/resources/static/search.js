@@ -4,9 +4,8 @@ const options = document.getElementById('options');
 window.addEventListener('error', e => debug(e));
 
 window.addEventListener('pageshow', () => {
+  input.addEventListener('click', e => input.focus());
   setTimeout(() => {
-    input.click();
-    input.focus();
     input.click();
   }, 1000);
   if (location.search) {

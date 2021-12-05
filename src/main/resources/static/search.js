@@ -1,17 +1,9 @@
 const input = document.getElementById('input');
 const options = document.getElementById('options');
-debug('2');
+
 window.addEventListener('error', e => debug(e));
 
 window.addEventListener('pageshow', () => {
-  input.click();
-  input.focus();
-  input.click();
-  input.focus();
-  // input.addEventListener('click', e => input.focus());
-  // setTimeout(() => {
-  //   input.click();
-  // }, 1000);
   if (location.search) {
     const query = Object.fromEntries(location.search.substring(1).split('&').map(q => q.split('=')));
     if (query['q']) {

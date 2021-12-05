@@ -4,10 +4,10 @@ const options = document.getElementById('options');
 window.addEventListener('error', e => debug(e));
 
 window.addEventListener('pageshow', () => {
-  input.addEventListener('click', e => input.focus());
-  setTimeout(() => {
-    input.click();
-  }, 1000);
+  // input.addEventListener('click', e => input.focus());
+  // setTimeout(() => {
+  //   input.click();
+  // }, 1000);
   if (location.search) {
     const query = Object.fromEntries(location.search.substring(1).split('&').map(q => q.split('=')));
     if (query['q']) {

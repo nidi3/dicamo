@@ -15,8 +15,9 @@
         <kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <kotlin.version>1.6.0</kotlin.version>
         <ktor.version>1.6.6</ktor.version>
-        <logback.version>1.2.5</logback.version>
+        <logback.version>1.2.7</logback.version>
         <main.class>io.ktor.server.netty.EngineMain</main.class>
     </properties>
 
@@ -27,7 +28,7 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>1.5.31</version>
+                <version>${kotlin.version}</version>
                 <executions>
                     <execution>
                         <id>compile</id>
@@ -74,13 +75,13 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test-junit</artifactId>
-            <version>1.5.31</version>
+            <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>1.5.31</version>
+            <version>${kotlin.version}</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>

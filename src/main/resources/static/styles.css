@@ -43,6 +43,15 @@ input, .options, table {
     width: 50px;
 }
 
+.options {
+    cursor: pointer;
+}
+
+.volat {
+    vertical-align: super;
+    font-size: 80%;
+}
+
 .conjug tr td:nth-of-type(2) span:not(.verb), .conjug tr td:nth-of-type(3) span {
     font-size: 15px;
 }

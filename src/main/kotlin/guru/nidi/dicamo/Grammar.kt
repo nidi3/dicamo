@@ -64,5 +64,5 @@ fun infinitivesOf(word: String): List<String> {
     return infs
 }
 
-private fun String.normalize() =
+fun String.normalize() =
     Regex("\\p{InCombiningDiacriticalMarks}+").replace(Normalizer.normalize(this, Normalizer.Form.NFKD), "")

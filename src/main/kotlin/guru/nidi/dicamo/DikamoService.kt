@@ -39,7 +39,7 @@ object DikamoService {
                 .filter { inf -> fetch(CONJUG_URL, inf).title() == "Conjugació" }
                 .map { inf ->
                     listOf(
-                        Entry("/conjug/$inf#$query", query), Entry("/?q=$inf&go", "($inf)")
+                        Entry("/conjug/$inf#${query.normalize()}", query), Entry("/?q=$inf&go", "($inf)")
                     )
                 }
         } catch (e: Exception) {
@@ -72,7 +72,7 @@ object DikamoService {
                     a.hasClass("verb_link") -> a.remove()
                 }
             }
-            select(".VFORMA").forEach { span -> span.attr("id", span.text()) }
+            select(".VFORMA").forEach { span -> span.attr("id", span.text().normalize()) }
         }
 
     private fun translateLink(document: Document, word: String, lang: String) =

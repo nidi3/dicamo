@@ -8,30 +8,57 @@ window.addEventListener('pageshow', () => {
     const query = Object.fromEntries(location.search.substring(1).split('&').map(q => q.split('=')));
     if (query['q']) {
       input.value = decodeURIComponent(query['q']);
-      load();
+      load('go' in query);
     }
   }
 });
 
-input.addEventListener('input', load);
+input.addEventListener('input', () => load());
 
-function load() {
+async function load(go) {
   if (input.value.length <= 2) {
     clear();
   } else {
-    fetch('/query/' + input.value)
-        .then(res => res.json())
-        .then(entries => {
+    try {
+      await query('/query', async entries => {
+        if (go && entries.length === 1) {
+          document.location.replace(entries[0][0].link);
+        } else {
           clear();
-          entries.forEach(({id, word}) => {
-            const op = document.createElement('div');
-            op.appendChild(document.createTextNode(word));
-            op.onclick = () => location.href = '/entry/' + id;
-            options.appendChild(op);
-          });
-        })
-        .catch(e => debug(e));
+          addEntries(entries);
+          await query('/verb', entries => addEntries(entries, true));
+        }
+      });
+    } catch (e) {
+      debug(e);
+    }
   }
+}
+
+async function query(path, consumer) {
+  const {query, entries} = await fetchJson(path + '/' + input.value);
+  console.log(query,input.value)
+  if (query === input.value) {
+    consumer(entries);
+  }
+}
+
+async function fetchJson(url) {
+  const res = await fetch(url);
+  return await res.json();
+}
+
+function addEntries(entries, top) {
+  entries.forEach(entry => {
+    const op = document.createElement('div');
+    options.insertBefore(op, top ? options.firstChild : null);
+    entry.forEach(({link, word}) => {
+      const en = document.createElement('span');
+      en.appendChild(document.createTextNode(word));
+      en.onclick = () => location.href = link;
+      op.appendChild(en);
+    });
+  });
 }
 
 function clear() {

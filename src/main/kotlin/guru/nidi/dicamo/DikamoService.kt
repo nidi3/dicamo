@@ -18,18 +18,33 @@ private const val ENTRY_URL = "/lexicx.jsp?GECART="
 object DikamoService {
     private val log = LoggerFactory.getLogger(javaClass)
 
-    fun query(query: String): List<Entry> {
+    fun query(query: String): List<List<Entry>> {
         try {
             val document = fetch(QUERY_URL, query)
             if (document.head().childNodeSize() == 1) {
                 val script = document.head().childNode(0).childNode(0).toString()
-                return wordId(script)?.let { listOf(Entry(it, query)) } ?: listOf()
+                return listOf(wordId(script)?.let { listOf(Entry("/entry/$it", query)) } ?: listOf())
             }
             val words = document.select(".CentreTextTD table")[0].select("a")
-            return words.map { Entry(wordId(it.attr("href")), it.text()) }
+            return words.map { listOf(Entry("/entry/" + wordId(it.attr("href")), it.text())) }
         } catch (e: Exception) {
             log.error("Error querying {}", query, e)
-            return listOf(Entry(null, e.message ?: "Unknown error"))
+            return listOf(listOf(Entry(null, e.message ?: "Unknown error")))
+        }
+    }
+
+    fun queryVerb(query: String): List<List<Entry>> {
+        return try {
+            infinitivesOf(query)
+                .filter { inf -> fetch(CONJUG_URL, inf).title() == "Conjugació" }
+                .map { inf ->
+                    listOf(
+                        Entry("/conjug/$inf#$query", query), Entry("/?q=$inf&go", "($inf)")
+                    )
+                }
+        } catch (e: Exception) {
+            log.error("Error querying verb {}", query, e)
+            listOf(listOf(Entry(null, e.message ?: "Unknown error")))
         }
     }
 
@@ -51,20 +66,19 @@ object DikamoService {
             select("a").forEach { a ->
                 val href = a.attr("href")
                 when {
-                    href.startsWith(CONJUG_URL) ->
-                        wordId(href)?.let {
-                            a.attr("href", "/${"conjug"}/$it")
-                        }
+                    href.startsWith(CONJUG_URL) -> wordId(href)?.let {
+                        a.attr("href", "/${"conjug"}/$it")
+                    }
                     a.hasClass("verb_link") -> a.remove()
                 }
             }
+            select(".VFORMA").forEach { span -> span.attr("id", span.text()) }
         }
 
     private fun translateLink(document: Document, word: String, lang: String) =
         document.createElement("a").apply {
             attr(
-                "href",
-                "https://translate.google.ch/?sl=ca&tl=$lang&text=" + encode(word)
+                "href", "https://translate.google.ch/?sl=ca&tl=$lang&text=" + encode(word)
             )
             text("$lang ")
         }
@@ -74,11 +88,11 @@ object DikamoService {
         return if (!matcher.find()) null else matcher.group(1)
     }
 
-    private fun fetch(path: String, query: String) =
-        Jsoup.connect(URL_BASE + path + encode(query, ISO_8859_1)).get()
+    private fun fetch(path: String, query: String) = Jsoup.connect(url(path, query)).get()
 
-    private fun encode(s: String, charset: Charset = UTF_8) =
-        URLEncoder.encode(s, charset)
+    private fun url(path: String, query: String) = URL_BASE + path + encode(query, ISO_8859_1)
+
+    private fun encode(s: String, charset: Charset = UTF_8) = URLEncoder.encode(s, charset)
 }
 
-class Entry(val id: String?, val word: String)
+class Entry(val link: String?, val word: String)

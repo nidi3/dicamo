@@ -4,6 +4,7 @@ import com.github.mustachejava.DefaultMustacheFactory
 import guru.nidi.dicamo.DikamoService.fetchConjug
 import guru.nidi.dicamo.DikamoService.fetchEntry
 import guru.nidi.dicamo.DikamoService.query
+import guru.nidi.dicamo.DikamoService.queryVerb
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.content.*
@@ -28,7 +29,11 @@ fun Application.module() {
         defaultResource("static/search.html")
 
         get("/query/{query}") {
-            call.respond(query(call.parameters["query"]!!))
+            call.parameters["query"]!!.let { call.respond(Result(it, query(it))) }
+        }
+
+        get("/verb/{query}") {
+            call.parameters["query"]!!.let { call.respond(Result(it, queryVerb(it))) }
         }
 
         get("/entry/{id}") {
@@ -46,3 +51,5 @@ fun Application.module() {
         }
     }
 }
+
+class Result(val query: String, val entries: List<List<Entry>>)

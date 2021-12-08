@@ -47,15 +47,35 @@ private val VERB_ENDINGS = mapOf(
     )
 )
 
+private val IRREGULAR_VERBS = mapOf(
+    "anar" to setOf(
+        "vaig", "vas", "va", "van",
+        "anire", "aniras", "anira", "anirem", "anireu", "aniran",
+        "vagi", "vagis", "vagi", "vagin",
+        "aniria", "aniries", "aniria", "aniriem", "anirieu", "anirien",
+        "ves", "vagi", "vagin"
+    ),
+    "estar" to setOf(
+        "estic", "estas", "estan",
+        "estigui", "estigueres", "estigue", "estiguerem", "estiguereu", "estigueren",
+        "estigui", "estiguis", "estigui", "estiguem", "estigueu", "estiguin",
+        "estigues", "estiguessis", "estigues", "estiguessim", "estiguessiu", "estiguessin",
+        "estigues", "estigui", "estiguem", "estigueu", "estiguin"
+    )
+)
+
 fun infinitivesOf(word: String): List<String> {
     val normalized = word.normalize()
+    val irregular = IRREGULAR_VERBS.filter { (_, forms) -> word in forms }
+    if (irregular.isNotEmpty()) return irregular.keys.toList()
+
     val infs = VERB_ENDINGS.flatMap { (infEndings, endings) ->
         endings
             .filter { ending -> normalized.endsWith(ending) }
             .maxByOrNull { it.length }
             ?.let { longestEnding ->
                 infEndings.map { infEnding ->
-                    normalized.dropLast(longestEnding.length) + infEnding
+                    normalized.replaceEnding(longestEnding, infEnding)
                 }
             }
             ?: listOf()
@@ -63,6 +83,22 @@ fun infinitivesOf(word: String): List<String> {
     log.debug("Infinitives of $word: $infs")
     return infs
 }
+
+private fun String.replaceEnding(oldEnding: String, newEnding: String): String {
+    val base = this.dropLast(oldEnding.length)
+    val startChangesToAOU = startChangesToAOU(oldEnding, newEnding)
+    return when {
+        base.endsWith("qu") && startChangesToAOU -> base.dropLast(2) + "c"
+        base.endsWith("c") && startChangesToAOU -> base.dropLast(1) + "ç"
+        base.endsWith("g") && startChangesToAOU -> base.dropLast(1) + "j"
+        base.endsWith("gu") && startChangesToAOU -> base.dropLast(2) + "g"
+        else -> base
+    } + newEnding
+}
+
+private fun startChangesToAOU(from: String, to: String) = from.startsWithEI() && !to.startsWithEI()
+
+private fun String.startsWithEI() = startsWith("e") || startsWith("i")
 
 fun String.normalize() =
     Regex("\\p{InCombiningDiacriticalMarks}+").replace(Normalizer.normalize(this, Normalizer.Form.NFKD), "")

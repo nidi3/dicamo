@@ -1,6 +1,9 @@
 package guru.nidi.dicamo
 
+import org.slf4j.LoggerFactory
 import java.text.Normalizer
+
+val log = LoggerFactory.getLogger("grammar")
 
 private val VERB_ENDINGS = mapOf(
     listOf("ar") to setOf(
@@ -46,13 +49,19 @@ private val VERB_ENDINGS = mapOf(
 
 fun infinitivesOf(word: String): List<String> {
     val normalized = word.normalize()
-    return VERB_ENDINGS.flatMap { (infs, endings) ->
+    val infs = VERB_ENDINGS.flatMap { (infEndings, endings) ->
         endings
             .filter { ending -> normalized.endsWith(ending) }
             .maxByOrNull { it.length }
-            ?.let { longestEnding -> infs.map { inf -> normalized.dropLast(longestEnding.length) + inf } }
+            ?.let { longestEnding ->
+                infEndings.map { infEnding ->
+                    normalized.dropLast(longestEnding.length) + infEnding
+                }
+            }
             ?: listOf()
     }
+    log.debug("Infinitives of $word: $infs")
+    return infs
 }
 
 private fun String.normalize() =

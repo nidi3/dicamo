@@ -37,7 +37,6 @@ async function load(go) {
 
 async function query(path, consumer) {
   const {query, entries} = await fetchJson(path + '/' + input.value);
-  console.log(query,input.value)
   if (query === input.value) {
     consumer(entries);
   }

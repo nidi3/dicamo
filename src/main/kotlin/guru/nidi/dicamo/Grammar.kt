@@ -61,6 +61,66 @@ private val IRREGULAR_VERBS = mapOf(
         "estigui", "estiguis", "estigui", "estiguem", "estigueu", "estiguin",
         "estigues", "estiguessis", "estigues", "estiguessim", "estiguessiu", "estiguessin",
         "estigues", "estigui", "estiguem", "estigueu", "estiguin"
+    ),
+    "ser" to setOf(
+        "sent", "essent",
+        "estat", "estada", "estats", "estades", "sigut", "siguda", "siguts", "sigudes",
+        "soc", "ets", "es", "som", "sou", "son",
+        "era", "eres", "era", "erem", "ereu", "eren",
+        "fui", "fores", "fou", "forem", "foreu", "foren",
+        "sigui", "siguis", "sigui", "siguem", "sigueu", "siguin",
+        "fos", "fossis", "fos", "fossim", "fossiu", "fossin",
+        "seria", "series", "seria", "seriem", "serieu", "serien", "fora", "fores", "fora", "forem", "foreu", "foren",
+        "sigues", "sigui", "siguem", "sigueu", "siguin"
+    ),
+    "fer" to setOf(
+        "fet", "feta", "fets", "fetes",
+        "faig", "fas", "fa", "fan",
+        "feia", "feies", "feia", "feiem", "feieu", "feien",
+        "fiu", "feu",
+        "fare", "faras", "fara", "farem", "fareu", "faran",
+        "faci", "facis", "faci", "facin",
+        "fes",
+        "faria", "faries", "faria", "fariem", "farieu", "farien",
+        "fes", "faci", "facin"
+    ),
+    "poder" to setOf(
+        "pogut", "poguda", "poguts", "pogudes",
+        "puc", "pots", "pot",
+        "pogui", "pogueres", "pogue", "poguerem", "poguereu", "pogueren",
+        "podre", "podras", "podra", "podrem", "podreu", "podran",
+        "pugui", "puguis", "pugui", "puguem", "pugueu", "puguin",
+        "pogues", "poguessis", "pogues", "poguessim", "poguessiu", "poguessin",
+        "podria", "podries", "podria", "podriem", "podrieu", "podrien",
+        "pugues", "pugui", "puguem", "pugueu", "puguin"
+    ),
+    "saber" to setOf(
+        "se", "saps", "sap",
+        "sabre", "sabras", "sabra", "sabrem", "sabreu", "sabran",
+        "sapiga", "sapigues", "sapiga", "sapiguem", "sapigueu", "sapiguen",
+        "sabria", "sabries", "sabria", "sabriem", "sabrieu", "sabrien",
+        "sapigues", "sapiga", "sapiguem", "sapigueu", "sapiguen"
+    ),
+    "tenir" to setOf(
+        "tingut", "tinguda", "tinguts", "tingudes",
+        "tinc", "te",
+        "tingui", "tingueres", "tingue", "tinguerem", "tinguereu", "tingueren",
+        "tindre", "tindras", "tindra", "tindrem", "tindreu", "tindran",
+        "tingui", "tinguis", "tingui", "tinguem", "tingueu", "tinguin",
+        "tingues", "tinguessis", "tingues", "tinguessim", "tinguessiu", "tinguessin",
+        "tindria", "tindries", "tindria", "tindriem", "tindrieu", "tindrien",
+        "ten", "te", "tingues", "tingui", "tinguem", "tingueu", "tinguin"
+    ),
+    "haver" to setOf(
+        "hagut", "haguda", "haguts", "hagudes",
+        "he", "haig", "has", "ha", "hem", "heu", "han",
+        "hagui", "hagueres", "hague", "haguerem", "haguereu", "hagueren",
+        "haure", "hauras", "haura", "haurem", "haureu", "hauran",
+        "hagi", "hagis", "hagi", "hagim", "haguem", "hagiu", "hagueu", "hagin",
+        "hagues", "haguessis", "hagues", "haguessim", "haguessiu", "haguessin",
+        "haguesses", "haguessem","haguesseu", "haguessen",
+        "hauria", "hauries", "hauria", "hauriem", "haurieu", "haurien",
+        "haguera", "hagueras", "haguera", "haguerem", "haguereu", "hagueren"
     )
 )
 

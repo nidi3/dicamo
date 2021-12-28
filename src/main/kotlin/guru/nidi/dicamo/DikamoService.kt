@@ -3,6 +3,7 @@ package guru.nidi.dicamo
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.slf4j.LoggerFactory
+import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.ISO_8859_1
@@ -67,7 +68,7 @@ object DikamoService {
                 val href = a.attr("href")
                 when {
                     href.startsWith(CONJUG_URL) -> wordId(href)?.let {
-                        a.attr("href", "/${"conjug"}/$it")
+                        a.attr("href", "/conjug/${decode(it)}")
                     }
                     a.hasClass("verb_link") -> a.remove()
                 }
@@ -93,6 +94,8 @@ object DikamoService {
     private fun url(path: String, query: String) = URL_BASE + path + encode(query, ISO_8859_1)
 
     private fun encode(s: String, charset: Charset = UTF_8) = URLEncoder.encode(s, charset)
+
+    private fun decode(s: String, charset: Charset = ISO_8859_1) = URLDecoder.decode(s, charset)
 }
 
 class Entry(val link: String?, val word: String)

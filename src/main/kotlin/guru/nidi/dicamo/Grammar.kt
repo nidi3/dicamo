@@ -5,6 +5,8 @@ import java.text.Normalizer
 
 val log = LoggerFactory.getLogger("grammar")
 
+private val VERB_TYPES = listOf("ar", "er", "re", "dre", "ndre", "ur", "ure")
+
 private val VERB_ENDINGS = mapOf(
     listOf("ar") to setOf(
         "ant",
@@ -118,7 +120,7 @@ private val IRREGULAR_VERBS = mapOf(
         "haure", "hauras", "haura", "haurem", "haureu", "hauran",
         "hagi", "hagis", "hagi", "hagim", "haguem", "hagiu", "hagueu", "hagin",
         "hagues", "haguessis", "hagues", "haguessim", "haguessiu", "haguessin",
-        "haguesses", "haguessem","haguesseu", "haguessen",
+        "haguesses", "haguessem", "haguesseu", "haguessen",
         "hauria", "hauries", "hauria", "hauriem", "haurieu", "haurien",
         "haguera", "hagueras", "haguera", "haguerem", "haguereu", "hagueren"
     )
@@ -132,12 +134,13 @@ fun infinitivesOf(word: String): List<String> {
     val infs = VERB_ENDINGS.flatMap { (infEndings, endings) ->
         endings
             .filter { ending -> normalized.endsWith(ending) }
-            .maxByOrNull { it.length }
+            .maxByOrNull { ending -> ending.length }
             ?.let { longestEnding ->
                 infEndings.map { infEnding ->
                     normalized.replaceEnding(longestEnding, infEnding)
                 }
             }
+            ?.filterNot { inf -> inf in VERB_TYPES }
             ?: listOf()
     }
     log.debug("Infinitives of $word: $infs")

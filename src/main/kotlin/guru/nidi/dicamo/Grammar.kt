@@ -136,7 +136,7 @@ fun infinitivesOf(word: String): List<String> {
             .filter { ending -> normalized.endsWith(ending) }
             .maxByOrNull { ending -> ending.length }
             ?.let { longestEnding ->
-                infEndings.map { infEnding ->
+                infEndings.flatMap { infEnding ->
                     normalized.replaceEnding(longestEnding, infEnding)
                 }
             }
@@ -147,21 +147,27 @@ fun infinitivesOf(word: String): List<String> {
     return infs
 }
 
-private fun String.replaceEnding(oldEnding: String, newEnding: String): String {
+internal fun String.replaceEnding(oldEnding: String, newEnding: String): List<String> {
     val base = this.dropLast(oldEnding.length)
-    val startChangesToAOU = startChangesToAOU(oldEnding, newEnding)
-    return when {
-        base.endsWith("qu") && startChangesToAOU -> base.dropLast(2) + "c"
-        base.endsWith("c") && startChangesToAOU -> base.dropLast(1) + "ç"
-        base.endsWith("g") && startChangesToAOU -> base.dropLast(1) + "j"
-        base.endsWith("gu") && startChangesToAOU -> base.dropLast(2) + "g"
-        else -> base
-    } + newEnding
+    if (newEnding == "ar") {
+        if (oldEnding.startsWith("i") && base.dropLastWhile { it == 'i' }.last().isVowel())
+            return listOf(base + "iar") //esglais -> esglaiar
+        if (oldEnding.startsWithFront()) return base.frontToBack().map { it + newEnding }
+    }
+    return listOf(base + newEnding)
 }
 
-private fun startChangesToAOU(from: String, to: String) = from.startsWithEI() && !to.startsWithEI()
+private fun String.frontToBack() = when {
+    endsWith("qu") -> listOf(this, dropLast(2) + "c") //qüe -> quar, que -> car
+    endsWith("c") -> listOf(dropLast(1) + "ç") //ce -> çar
+    endsWith("g") -> listOf(dropLast(1) + "j") //ge -> jar
+    endsWith("gu") -> listOf(this, dropLast(2) + "g") //güe -> guar, gue -> gar
+    else -> listOf(this)
+}
 
-private fun String.startsWithEI() = startsWith("e") || startsWith("i")
+private fun Char.isVowel() = this in "aeiou"
+private fun String.startsWithBack() = isNotEmpty() && first() in "aou"
+private fun String.startsWithFront() = isNotEmpty() && first() in "ei"
 
 fun String.normalize() =
     Regex("\\p{InCombiningDiacriticalMarks}+").replace(Normalizer.normalize(this, Normalizer.Form.NFKD), "")

@@ -44,7 +44,7 @@ val verbs = mapOf(
         ),
     ),
     ending(
-        "er", listOf(),
+        "er", listOf("b", "c", "d", "f", "l", "m", "r", "s", "v", "x", "y"),
         group(
             GERUNDI("ent"),
             PARTICIPI("ut", "uda", "uts", "udes"),

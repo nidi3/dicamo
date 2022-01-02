@@ -13,62 +13,170 @@ val log = LoggerFactory.getLogger("grammar")
 
 private val VERB_TYPES = listOf("ar", "er", "re", "dre", "ndre", "ur", "ure")
 
-private enum class Form { GERUNDI, PARTICIPI, PRESENT, IMPERFET, SIMPLE, FUTUR, SUB_PRESENT, SUB_IMPERFET, CONDICIONAL, IMPERATIU }
+private enum class Form {
+    GERUNDI, PARTICIPI, PRESENT, IMPERFET, SIMPLE, FUTUR, SUB_PRESENT, SUB_IMPERFET, CONDICIONAL, IMPERATIU;
+
+    operator fun invoke(vararg forms: String?) = this to listOf(*forms)
+}
+
+private fun ending(ending: String, vararg groups: Pair<String, Map<Form, List<String?>>>) =
+    listOf(ending) to mapOf(*groups)
+
+private fun ending(ending1: String, ending2: String, vararg groups: Pair<String, Map<Form, List<String?>>>) =
+    listOf(ending1, ending2) to mapOf(*groups)
+
+private fun group(vararg forms: Pair<Form, List<String?>>) = group("", *forms)
+
+private fun group(name: String = "", vararg forms: Pair<Form, List<String?>>) = name to mapOf(*forms)
 
 private val VERB_ENDINGS = mapOf(
-    listOf("ar") to mapOf(
-        "" to mapOf(
-            GERUNDI to listOf("ant"),
-            PARTICIPI to listOf("at", "ada", "ats", "ades"),
-            PRESENT to listOf("o", "es", "a", "em", "eu", "en"),
-            IMPERFET to listOf("ava", "aves", "ava", "àvem", "àveu", "aven"),
-            SIMPLE to listOf("í", "ares", "à", "àrem", "àreu", "aren"),
-            FUTUR to listOf("aré", "aràs", "arà", "arem", "areu", "aran"),
-            SUB_PRESENT to listOf("i", "is", "i", "em", "eu", "in"),
-            SUB_IMPERFET to listOf("és", "essis", "és", "éssim", "éssiu", "essin"),
-            CONDICIONAL to listOf("aria", "aries", "aria", "aríem", "aríeu", "arien"),
-            IMPERATIU to listOf("a", "i", "em", "eu", "in")
+    ending(
+        "ar",
+        group(
+            GERUNDI("ant"),
+            PARTICIPI("at", "ada", "ats", "ades"),
+            PRESENT("o", "es", "a", "em", "eu", "en"),
+            IMPERFET("ava", "aves", "ava", "àvem", "àveu", "aven"),
+            SIMPLE("í", "ares", "à", "àrem", "àreu", "aren"),
+            FUTUR("aré", "aràs", "arà", "arem", "areu", "aran"),
+            SUB_PRESENT("i", "is", "i", "em", "eu", "in"),
+            SUB_IMPERFET("és", "essis", "és", "éssim", "éssiu", "essin"),
+            CONDICIONAL("aria", "aries", "aria", "aríem", "aríeu", "arien"),
+            IMPERATIU("a", "i", "em", "eu", "in")
+        ),
+        group(
+            "-a/-ai",
+            SIMPLE("i"),
+            SUB_PRESENT("i", "is", "i", null, null, "in"),
+            IMPERATIU(null, "i", null, null, "ain")
+        ),
+    ),
+    ending(
+        "er", "re",
+        group(
+            GERUNDI("ent"),
+            PARTICIPI("ut", "uda", "uts", "udes"),
+            PRESENT("o", "s", "", "em", "eu", "en"),
+            IMPERFET("ia", "ies", "ia", "íem", "íeu", "ien"),
+            SIMPLE("í", "eres", "é", "érem", "éreu", "eren"),
+            FUTUR("eré", "eràs", "erà", "erem", "ereu", "eran"),
+            SUB_PRESENT("i", "is", "i", "em", "eu", "in"),
+            SUB_IMPERFET("és", "essis", "és", "éssim", "éssiu", "essin"),
+            CONDICIONAL("eria", "eries", "eria", "eríem", "eríeu", "erien"),
+            IMPERATIU("", "i", "em", "eu", "in")
         )
     ),
-    listOf("er", "re") to mapOf(
-        "" to mapOf(
-            GERUNDI to listOf("ent"),
-            PARTICIPI to listOf("ut", "uda", "uts", "udes"),
-            PRESENT to listOf("o", "s", "", "em", "eu", "en"),
-            IMPERFET to listOf("ia", "ies", "ia", "íem", "íeu", "ien"),
-            SIMPLE to listOf("í", "eres", "é", "érem", "éreu", "eren"),
-            FUTUR to listOf("eré", "eràs", "erà", "erem", "ereu", "eran"),
-            SUB_PRESENT to listOf("i", "is", "i", "em", "eu", "in"),
-            SUB_IMPERFET to listOf("és", "essis", "és", "éssim", "éssiu", "essin"),
-            CONDICIONAL to listOf("eria", "eries", "eria", "eríem", "eríeu", "erien"),
-            IMPERATIU to listOf("", "i", "em", "eu", "in")
-        )
-    ),
-    listOf("ir") to mapOf(
-        "" to mapOf(
-            GERUNDI to listOf("int"),
-            PARTICIPI to listOf("it", "ida", "its", "ides"),
-            PRESENT to listOf("o", "s", "", "im", "iu", "en"),
-            IMPERFET to listOf("ia", "ies", "ia", "íem", "íeu", "ien"),
-            SIMPLE to listOf("í", "ires", "í", "írem", "íreu", "iren"),
-            FUTUR to listOf("iré", "iràs", "irà", "irem", "ireu", "iran"),
-            SUB_PRESENT to listOf("i", "is", "i", "im", "iu", "in"),
-            SUB_IMPERFET to listOf("ís", "issis", "ís", "íssim", "íssiu", "issin"),
-            CONDICIONAL to listOf("iria", "iries", "iria", "iríem", "iríeu", "irien"),
-            IMPERATIU to listOf("", "i", "im", "iu", "in"),
+    ending(
+        "ir",
+        group(
+            GERUNDI("int"),
+            PARTICIPI("it", "ida", "its", "ides"),
+            PRESENT("o", "s", "", "im", "iu", "en"),
+            IMPERFET("ia", "ies", "ia", "íem", "íeu", "ien"),
+            SIMPLE("í", "ires", "í", "írem", "íreu", "iren"),
+            FUTUR("iré", "iràs", "irà", "irem", "ireu", "iran"),
+            SUB_PRESENT("i", "is", "i", "im", "iu", "in"),
+            SUB_IMPERFET("ís", "issis", "ís", "íssim", "íssiu", "issin"),
+            CONDICIONAL("iria", "iries", "iria", "iríem", "iríeu", "irien"),
+            IMPERATIU("", "i", "im", "iu", "in"),
         ),
-        "incoatius" to mapOf(
-            PRESENT to listOf("eixo", "eixes", "eix", "", "", "eixen"),
-            SUB_PRESENT to listOf("eixi", "eixis", "eixi", "", "", "eixin"),
-            IMPERATIU to listOf("eix", "eixi", "", "", "eixin")
+        group(
+            "incoatius",
+            PRESENT("eixo", "eixes", "eix", null, null, "eixen"),
+            SUB_PRESENT("eixi", "eixis", "eixi", null, null, "eixin"),
+            IMPERATIU("eix", "eixi", null, null, "eixin")
         ),
-        "ompl" to mapOf(
-            PRESENT to listOf("", "es", "e"),
-            IMPERATIU to listOf("e"),
+        group(
+            "-cull/-coll,-surt/-sort,-cup/-cop",
+            PRESENT("o", "s", "", null, null, "en"),
+            SUB_PRESENT("i", "is", "i", null, null, "in"),
+            IMPERATIU("", "i", null, null, "in")
         ),
-        "-ompl" to mapOf(
-            PARTICIPI to listOf("", "", "", "", "ert", "erta", "erts", "ertes")
-        )
+        group(
+            "-cus/-cos",
+            PRESENT("o", "es", "", null, null, "en"),
+            SUB_PRESENT("i", "is", "i", null, null, "in"),
+            IMPERATIU("", "i", null, null, "in")
+        ),
+        group(
+            "-tus/-toss",
+            PRESENT("so", "ses", "", null, null, "sen"),
+            SUB_PRESENT("si", "sis", "si", null, null, "sin"),
+            IMPERATIU("", "si", null, null, "sin")
+        ),
+        group(
+            "ompl,desompl,reompl",
+            PARTICIPI(null, null, null, null, "ert", "erta", "erts", "ertes"),
+            PRESENT(null, "es", "e"),
+            IMPERATIU("e"),
+        ),
+        group(
+            "acompl,compl,incompl,recompl,supl",
+            PARTICIPI(null, null, null, null, "ert", "erta", "erts", "ertes")
+        ),
+        group(
+            "-impr/-imprim",
+            PARTICIPI("es", "esa", "esos", "eses")
+        ),
+        group(
+            "ob/obr",
+            PRESENT(null, "res", "re"),
+            IMPERATIU("re"),
+        ),
+        group(
+            "-ob/-obr",
+            PARTICIPI("ert", "erta", "erts", "ertes")
+        ),
+        group(
+            "-mor",
+            PARTICIPI("t", "ta", "ts", "tes")
+        ),
+        group(
+            "-t/-ten",
+            PARTICIPI("ingut", "inguda", "inguts", "ingudes"),
+            PRESENT("inc", null, "e"),
+            SIMPLE("ingui", "ingueres", "ingue", "inguerem", "inguereu", "ingueren"),
+            FUTUR("indre", "indras", "indra", "indrem", "indreu", "indran"),
+            SUB_PRESENT("ingui", "inguis", "ingui", "inguem", "ingueu", "inguin"),
+            SUB_IMPERFET("ingues", "inguessis", "ingues", "inguessim", "inguessiu", "inguessin"),
+            CONDICIONAL("indria", "indries", "indria", "indriem", "indrieu", "indrien"),
+            IMPERATIU("en", "e", "ingues", "ingui", "inguem", "eniu", "ingueu", "inguin")
+        ),
+        group(
+            "-v/-ven",
+            PARTICIPI("ingut", "inguda", "inguts", "ingudes"),
+            PRESENT("inc", null, "e"),
+            SIMPLE("ingui", "ingueres", "ingue", "inguerem", "inguereu", "ingueren"),
+            FUTUR("indre", "indras", "indra", "indrem", "indreu", "indran"),
+            SUB_PRESENT("ingui", "inguis", "ingui", "inguem", "ingueu", "inguin"),
+            SUB_IMPERFET("ingues", "inguessis", "ingues", "inguessim", "inguessiu", "inguessin"),
+            CONDICIONAL("indria", "indries", "indria", "indriem", "indrieu", "indrien"),
+            IMPERATIU("ine", "ingui", "inguem", "eniu", "inguin")
+        ),
+        group(
+            "-llu",
+            PRESENT(null, null, null, null, null, null, "u", "us", "u"),
+            SUB_IMPERFET(null, null, null, null, null, null, "isses", "íssem", "ísseu", "issen"),
+            IMPERATIU(null, null, null, null, null, "u"),
+        ),
+        group(
+            "/eix",
+            PRESENT("ixo", "ixes", "ix", null, null, "ixen", "isc"),
+            SUB_PRESENT("ixi", "ixis", "ixi", null, null, "ixin"),
+            IMPERATIU("ix", "ixi", null, null, "ixin")
+        ),
+        group(
+            "re/reeix,des/deseix,sobre/sobreeix,sota/sotaeix",
+            PRESENT("ixo", "ixes", "ix", null, null, "ixen"),
+            SUB_PRESENT("ixi", "ixis", "ixi", null, null, "ixin"),
+            IMPERATIU("ix", "ixi", null, null, "ixin")
+        ),
+        group(
+            "pu/pud",
+            PRESENT(null, "ts", "t"),
+            SUB_IMPERFET(null, null, null, null, null, null, "isses", "íssem", "ísseu", "issen"),
+            IMPERATIU("t"),
+        ),
     ),
 )
 
@@ -126,16 +234,6 @@ private val IRREGULAR_VERBS = mapOf(
         "sabria", "sabries", "sabria", "sabriem", "sabrieu", "sabrien",
         "sapigues", "sapiga", "sapiguem", "sapigueu", "sapiguen"
     ),
-    "tenir" to listOf(
-        "tingut", "tinguda", "tinguts", "tingudes",
-        "tinc", "te",
-        "tingui", "tingueres", "tingue", "tinguerem", "tinguereu", "tingueren",
-        "tindre", "tindras", "tindra", "tindrem", "tindreu", "tindran",
-        "tingui", "tinguis", "tingui", "tinguem", "tingueu", "tinguin",
-        "tingues", "tinguessis", "tingues", "tinguessim", "tinguessiu", "tinguessin",
-        "tindria", "tindries", "tindria", "tindriem", "tindrieu", "tindrien",
-        "ten", "te", "tingues", "tingui", "tinguem", "tingueu", "tinguin"
-    ),
     "haver" to listOf(
         "hagut", "haguda", "haguts", "hagudes",
         "he", "haig", "has", "ha", "hem", "heu", "han",
@@ -151,21 +249,31 @@ private val IRREGULAR_VERBS = mapOf(
 
 private val effectiveEndings: Map<List<String>, Map<String, Set<String>>> =
     VERB_ENDINGS.entries.associate { (infEndings, groups) ->
-        infEndings to groups.entries.associate { (name, group) ->
-            name to groups[""]!!.flatMap { (form, defaultForms) ->
-                val forms = group[form]?.map { it.ifEmpty { null } } ?: listOf()
-                (defaultForms.indices union forms.indices).map { index ->
-                    (forms.getOrNull(index) ?: defaultForms[index]).normalize()
-                }
-            }.toSet()
-        }
+        infEndings to groups
+            .flatMap { (name, group) -> name.split(",").map { it to group } }
+            .associate { (name, group) ->
+                val addForDefault = if ("/" in name) name.substring(name.indexOf("/") * 2 + 1) else ""
+                name to groups[""]!!.flatMap { (form, defaultForms) ->
+                    val forms = group[form] ?: listOf()
+                    (defaultForms.indices union forms.indices).map { index ->
+                        ((forms.getOrNull(index) ?: (addForDefault + defaultForms[index]))).normalize()
+                    }
+                }.toSet()
+            }
     }
 
 private infix fun IntRange.union(other: IntRange) = IntRange(min(first, other.first), max(last, other.last))
 
-private fun belongsToGroup(base: String, group: String): Boolean {
-    if (group == "" || group == "incoatius") return true //TODO use list of incoatius verbs?
-    return (group.first() == '-' && base.endsWith(group.drop(1))) || group == base
+private fun baseInGroup(base: String, group: String): String? {
+    val fromBase = group.substringBefore("/")
+    val toBase = group.substringAfter("/")
+    if (group == "") return base
+    if (group == "incoatius") return base //TODO use list of incoatius verbs?
+    if (fromBase == base)
+        return base.dropLast(fromBase.length) + toBase
+    if (fromBase.firstOrNull() == '-' && base.endsWith(fromBase.drop(1)))
+        return base.dropLast(fromBase.length - 1) + toBase.drop(1)
+    return null
 }
 
 fun infinitivesOf(word: String): List<String> {
@@ -179,10 +287,10 @@ fun infinitivesOf(word: String): List<String> {
                 .filter { ending -> normalized.endsWith(ending) }
                 .maxByOrNull { ending -> ending.length }
                 ?.let { longestEnding ->
-                    val base = word.dropLast(longestEnding.length)
-                    if (!belongsToGroup(base, name)) listOf()
-                    else infEndings.flatMap { infEnding ->
-                        base.replaceEnding(longestEnding, infEnding)
+                    baseInGroup(word.dropLast(longestEnding.length), name)?.let { base ->
+                        infEndings.flatMap { infEnding ->
+                            base.replaceEnding(longestEnding, infEnding)
+                        }
                     }
                 }
                 ?.filterNot { inf -> inf in VERB_TYPES }
@@ -196,18 +304,10 @@ fun infinitivesOf(word: String): List<String> {
 internal fun String.replaceEnding(oldEnding: String, newEnding: String): List<String> {
     val newBase = when (newEnding) {
         "ar" -> when {
-            oldEnding.startsWith("i") && dropLastWhile { it == 'i' }.last().isVowel() ->
-                listOf(this + "i") //esglais -> esglaiar
             oldEnding.startsWithFront() -> frontToBack()
             else -> listOf(this)
         }
         "ir" -> when {
-            (endsWith("cull") || endsWith("surt") || endsWith("cup")) &&
-                    oldEnding in listOf("o", "s", "", "i", "en", "is", "in") ->
-                listOfNotNull(
-                    if (oldEnding == "i") this else null,
-                    replaceLast("u", "o")
-                ) //cullo -> collir, culli -> cullir/collir
             oldEnding.startsWithBack() -> backToFront()
             else -> listOf(this)
         }

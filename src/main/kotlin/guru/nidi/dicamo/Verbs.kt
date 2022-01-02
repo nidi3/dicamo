@@ -7,7 +7,7 @@ import guru.nidi.dicamo.Form.*
 
 val verbs = mapOf(
     ending(
-        "ar",
+        "ar", listOf(),
         group(
             GERUNDI("ant"),
             PARTICIPI("at", "ada", "ats", "ades"),
@@ -44,7 +44,7 @@ val verbs = mapOf(
         ),
     ),
     ending(
-        "er",
+        "er", listOf(),
         group(
             GERUNDI("ent"),
             PARTICIPI("ut", "uda", "uts", "udes"),
@@ -125,7 +125,7 @@ val verbs = mapOf(
         )
     ),
     ending(
-        "re",
+        "re", listOf("t", "d", "u", "b", "p"),
         group(
             GERUNDI("ent"),
             PARTICIPI("ut", "uda", "uts", "udes"),
@@ -226,7 +226,7 @@ val verbs = mapOf(
         ),
     ),
     ending(
-        "ir",
+        "ir", listOf(),
         group(
             GERUNDI("int"),
             PARTICIPI("it", "ida", "its", "ides"),
@@ -345,8 +345,12 @@ enum class Form {
     operator fun invoke(vararg forms: String?) = this to listOf(*forms)
 }
 
-private fun ending(ending: String, vararg groups: Pair<String, Map<Form, List<String?>>>) =
-    ending to mapOf(*groups)
+class Ending(val beforeEnding: List<String>, val groups: Map<String, Map<Form, List<String?>>>) {
+    val defaultGroup = groups[""]!!
+}
+
+private fun ending(ending: String, beforeEnding: List<String>, vararg groups: Pair<String, Map<Form, List<String?>>>) =
+    ending to Ending(beforeEnding, mapOf(*groups))
 
 private fun group(vararg forms: Pair<Form, List<String?>>) = group("", *forms)
 

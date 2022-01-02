@@ -9,19 +9,23 @@ val log = LoggerFactory.getLogger("grammar")
 
 private val VERB_TYPES = listOf("ar", "er", "re", "dre", "ndre", "ur", "ure")
 
-private val effectiveEndings: Map<String, Map<String, Set<String>>> =
-    verbs.entries.associate { (infEndings, groups) ->
-        infEndings to groups
+private class FlatEnding(val beforeEnding: List<String>, val groups: Map<String, Set<String>>) {
+    fun matchesBase(base: String?) = beforeEnding.isEmpty() || beforeEnding.any { base?.endsWith(it) == true }
+}
+
+private val effectiveEndings: Map<String, FlatEnding> =
+    verbs.entries.associate { (infEnding, ending) ->
+        infEnding to FlatEnding(ending.beforeEnding, ending.groups
             .flatMap { (name, group) -> name.split(",").map { it to group } }
             .associate { (name, group) ->
                 val addForDefault = if ("/" in name) name.substring(name.indexOf("/") * 2 + 1) else ""
-                name to groups[""]!!.flatMap { (form, defaultForms) ->
+                name to ending.defaultGroup.flatMap { (form, defaultForms) ->
                     val forms = group[form] ?: listOf()
                     (defaultForms.indices union forms.indices).map { index ->
                         ((forms.getOrNull(index) ?: (addForDefault + defaultForms[index]))).normalize()
                     }
                 }.toSet()
-            }
+            })
     }
 
 private infix fun IntRange.union(other: IntRange) = IntRange(min(first, other.first), max(last, other.last))
@@ -40,14 +44,15 @@ private fun baseInGroup(base: String, group: String): String? {
 
 fun infinitivesOf(word: String): List<String> {
     val normalized = word.normalize()
-    val infs = effectiveEndings.flatMap { (infEnding, groups) ->
-        groups.flatMap { (name, group) ->
+    val infs = effectiveEndings.flatMap { (infEnding, ending) ->
+        ending.groups.flatMap { (name, group) ->
             group
                 .filter { ending -> normalized.endsWith(ending) }
                 .maxByOrNull { ending -> ending.length }
                 ?.let { longestEnding ->
-                    baseInGroup(normalized.dropLast(longestEnding.length), name)
-                        ?.replaceEnding(longestEnding, infEnding)
+                    val base = baseInGroup(normalized.dropLast(longestEnding.length), name)
+                    if (!ending.matchesBase(base)) null
+                    else base?.replaceEnding(longestEnding, infEnding)
                 }
                 ?.filterNot { inf -> inf in VERB_TYPES }
                 ?: listOf()

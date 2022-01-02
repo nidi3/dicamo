@@ -7,7 +7,12 @@ import kotlin.math.min
 
 val log = LoggerFactory.getLogger("grammar")
 
-private val VERB_TYPES = listOf("ar", "er", "re", "dre", "ndre", "ur", "ure")
+private val VERB_TYPES = listOf(
+    "ar", "car", "iar", "jar", "uar",
+    "er",
+    "re", "bre", "dre", "ndre", "ur", "ure",
+    "ir", "gir", "rir"
+)
 
 private class FlatEnding(val possibleBase: (String) -> Boolean, val groups: Map<String, Set<String>>)
 

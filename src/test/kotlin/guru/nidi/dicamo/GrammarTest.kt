@@ -75,7 +75,7 @@ class GrammarTest {
             lluisses,   lluissar/lluisser/lluisseir/lluir
             ixo,        ixar/ixer/ixir/eixir
             eixim,      eiximer/eixir
-            reixo,      reixar/rèixer/reixir/rir/reeixir
+            reixo,      reixar/rèixer/reixir/reeixir
             desixo,     desixar/desixer/desixir/deseixir
             sobreixo,   sobreixar/sobrèixer/sobreixir/sobrir/sobreeixir
             sotaixo,    sotaixar/sotàixer/sotaixir/sotaeixir

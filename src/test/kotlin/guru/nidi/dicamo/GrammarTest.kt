@@ -18,11 +18,12 @@ class GrammarTest {
             canvi,      is,     ar, canviar                     
             dorm,       im,     ir, dormir
             fuj,        o,      ir, fugir   
+            venç,       ,       er, vencer   
 """
     )
-    fun replaceEnding(base: String, oldEnding: String, newEnding: String, expected: String?) {
+    fun replaceEnding(base: String, oldEnding: String?, newEnding: String, expected: String?) {
         val expectedList = expected?.split("/") ?: listOf()
-        assertEquals(expectedList, base.replaceEnding(oldEnding, newEnding))
+        assertEquals(expectedList, base.replaceEnding(oldEnding ?: "", newEnding))
     }
 
     @ParameterizedTest
@@ -30,11 +31,11 @@ class GrammarTest {
         textBlock = """
             parlem,     parlar/parler/parlre/parlemir
             dorme,      dormer/dormre/dormeir
-            dormes,     dormar/dormer/dormre/dormeir     
+            dormes,     dormar/dormer/dormre/dormetre/dormeir     
             dormert,    dormerter/dormertre/dormertir
             dormerta,   dormertar/dormertaer/dormertare/dormertair
             dormerts,   dormerter/dormertre/dormertir
-            dormertes,  dormertar/dormerter/dormertre/dormerteir
+            dormertes,  dormertar/dormerter/dormertre/dormertendre/dormerteir
             omple,      ompler/omplre/ompleir/omplir 
             omplit,     ompliter/omplitre/omplir 
             omplert,    omplerter/omplertre/omplertir/omplir 
@@ -47,10 +48,10 @@ class GrammarTest {
             cobre,      cobrer/cobrre/cobreir
             cobreix,    cobreixer/cobreixre/cobreixir/cobrir
             cobert,     coberter/cobertre/cobertir/cobrir
-            tens,       tener/tenre/tenir
+            tens,       tener/tenre/tendre/tenir
             tingut,     tinger/tingre/tingutir/tenir
             mantinc,    mantincer/mantincre/mantincir/mantenir
-            vens,       vener/venre/venir
+            vens,       vener/venre/vendre/venir
             vingut,     vinger/vingre/vingutir/venir
             previnc,    previncer/previncre/previncir/prevenir
             morta,      mortar/mortaer/mortare/mortair/morir
@@ -80,7 +81,37 @@ class GrammarTest {
             sotaixo,    sotaixar/sotaixer/sotaixre/sotaixir/sotaeixir
             teixo,      teixar/teixer/teixre/teixir/tir
             put,        per/pre/putir/pudir
-            impres,     imprar/imprer/imprre/impreir/imprimir
+            impres,     imprar/imprer/imprre/imprendre/impreir/imprimir
+            vaig,       anar/vaiger/vaigre/vaigir
+            anem,       anar/aner/anre/anemir
+            estic,      estar/esticer/esticre/esticir
+            soc,        socer/ser/socre/socir
+            seria,      seriar/ser/sre/serir
+            fora,       forar/foraer/ser/forare/forair
+            faig,       faiger/fer/faigre/faigir
+            refaig,     refaiger/refer/refaigre/refaigir
+            puc,        pucer/poder/pucre/pucir
+            saps,       saper/saber/sapre/sabre/sapir
+            haig,       haiger/haver/haigre/haigir
+            veig,       veiger/veigre/veure/veigir
+            preveig,    preveiger/preveigre/preveure/preveigir
+            visc,       viscer/viscre/viure/viscir
+            convisc,    conviscer/conviscre/conviure/conviscir
+            reps,       reper/repre/rebre/repir
+            perceps,    perceper/percepre/percebre/percepir
+            capiga,     capigar/capigaer/capigare/cabre/capigair
+            apres,      aprar/aprer/aprre/aprendre/apreir
+            aprenc,     aprencer/aprencre/aprendre/aprencir
+            prengui,    prenguar/prengar/prenguer/prengure/prendre/prenguir
+            atenent,    atener/atenre/atendre/atenentir
+            venut,      vener/venre/vendre/venutir
+            confos,     confoer/confore/confondre/confoir
+            resposta,   respostar/respostaer/respostare/respondre/respostair
+            promes,     promar/promer/promre/prometre/promeir
+            prometia,   prometiar/prometer/prometre/prometir
+            hagut,      hager/haver/hagre/heure/hagutir
+            hec,        hecer/hecre/heure/hecir
+            corres,     corrar/correr/corrre/correndre/correir
 """
     )
     fun testInfinitivesOf(word: String, expected: String?) {

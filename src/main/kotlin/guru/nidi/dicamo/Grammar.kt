@@ -52,15 +52,27 @@ fun infinitivesOf(word: String): List<String> {
                 ?.filterNot { inf -> inf in VERB_TYPES }
                 ?: listOf()
         }.toSet()
-    }.map { addUmlaut(it) }
+    }.flatMap { addDiacritics(it) }
     log.debug("Infinitives of $word: $infs")
     return infs
 }
 
-private fun addUmlaut(s: String): String {
-    //TODO not finished, or diacritic insensitive search?
-    if (s.endsWith("orrer")) return s.dropLast(5)+"órrer"
-    return s
+val diacritics = listOf(
+    "aixer" to "àixer", "anyer" to "ànyer",
+    "coneixer" to "conèixer", "creixer" to "créixer", "reixer" to "rèixer", "neixer" to "néixer", "peixer" to "péixer",
+    "enyer" to "ènyer", "encer" to "èncer", "emer" to "émer",
+    "aitzar" to "aïtzar", "eitzar" to "eïtzar",
+    "orrer" to "órrer", "orcer" to "òrcer", "omer" to "òmer",
+    "umer" to "úmer", "unyer" to "únyer",
+)
+
+private fun addDiacritics(s: String): List<String> {
+    // ï and ç are not completely handled
+    diacritics
+        .firstOrNull { s.endsWith(it.first) }
+        ?.let { return listOf(s.dropLast(it.first.length) + it.second) }
+    if (s.endsWith("car")) return listOf(s, s.dropLast(3) + "çar")
+    return listOf(s)
 }
 
 internal fun String.replaceEnding(oldEnding: String, newEnding: String): List<String> {

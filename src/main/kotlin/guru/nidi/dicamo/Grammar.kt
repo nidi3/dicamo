@@ -9,13 +9,11 @@ val log = LoggerFactory.getLogger("grammar")
 
 private val VERB_TYPES = listOf("ar", "er", "re", "dre", "ndre", "ur", "ure")
 
-private class FlatEnding(val beforeEnding: List<String>, val groups: Map<String, Set<String>>) {
-    fun matchesBase(base: String?) = beforeEnding.isEmpty() || beforeEnding.any { base?.endsWith(it) == true }
-}
+private class FlatEnding(val possibleBase: (String) -> Boolean, val groups: Map<String, Set<String>>)
 
 private val effectiveEndings: Map<String, FlatEnding> =
     verbs.entries.associate { (infEnding, ending) ->
-        infEnding to FlatEnding(ending.beforeEnding, ending.groups
+        infEnding to FlatEnding(ending.possibleBase, ending.groups
             .flatMap { (name, group) -> name.split(",").map { it to group } }
             .associate { (name, group) ->
                 val addForDefault = if ("/" in name) name.substring(name.indexOf("/") * 2 + 1) else ""
@@ -51,8 +49,8 @@ fun infinitivesOf(word: String): List<String> {
                 .maxByOrNull { ending -> ending.length }
                 ?.let { longestEnding ->
                     val base = baseInGroup(normalized.dropLast(longestEnding.length), name)
-                    if (!ending.matchesBase(base)) null
-                    else base?.replaceEnding(longestEnding, infEnding)
+                    if (base == null || !ending.possibleBase(base)) null
+                    else base.replaceEnding(longestEnding, infEnding)
                 }
                 ?.filterNot { inf -> inf in VERB_TYPES }
                 ?: listOf()

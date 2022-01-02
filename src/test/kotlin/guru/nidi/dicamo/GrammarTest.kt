@@ -61,10 +61,10 @@ class GrammarTest {
             sortim,     sortimer/sortir
             escupo,     escupar/escupre/escupir/escopir
             escopim,    escopimer/escopir
-            esglais,    esglaar/esglaiar/esglair      
-            esglaiis,   esglaiar/esglaiir      
+            esglais,    esglaiar/esglair      
+            esglaiis,   esglaiar      
             canvis,     canvar/canver/canvir      
-            canviis,    canviar/canviir      
+            canviis,    canviar      
             tus,        ture/tuir/tossir
             tossim,     tossimer/tossir
             cuso,       cusar/cuser/cusir/cosir

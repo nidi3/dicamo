@@ -7,7 +7,7 @@ import guru.nidi.dicamo.Form.*
 
 val verbs = mapOf(
     ending(
-        "ar", listOf(),
+        "ar", { base -> base.last() !in "ahkqw" },
         group(
             GERUNDI("ant"),
             PARTICIPI("at", "ada", "ats", "ades"),
@@ -44,7 +44,7 @@ val verbs = mapOf(
         ),
     ),
     ending(
-        "er", listOf("b", "c", "d", "f", "l", "m", "r", "s", "v", "x", "y"),
+        "er", { base -> base.last() in "bcdflmrsvxy" },
         group(
             GERUNDI("ent"),
             PARTICIPI("ut", "uda", "uts", "udes"),
@@ -125,7 +125,7 @@ val verbs = mapOf(
         )
     ),
     ending(
-        "re", listOf("t", "d", "u", "b", "p"),
+        "re", { base -> base.last() in "tdubp" },
         group(
             GERUNDI("ent"),
             PARTICIPI("ut", "uda", "uts", "udes"),
@@ -226,7 +226,7 @@ val verbs = mapOf(
         ),
     ),
     ending(
-        "ir", listOf(),
+        "ir", { base -> base.last() !in "hijkqw" },
         group(
             GERUNDI("int"),
             PARTICIPI("it", "ida", "its", "ides"),
@@ -345,12 +345,16 @@ enum class Form {
     operator fun invoke(vararg forms: String?) = this to listOf(*forms)
 }
 
-class Ending(val beforeEnding: List<String>, val groups: Map<String, Map<Form, List<String?>>>) {
+class Ending(val possibleBase: (String) -> Boolean, val groups: Map<String, Map<Form, List<String?>>>) {
     val defaultGroup = groups[""]!!
 }
 
-private fun ending(ending: String, beforeEnding: List<String>, vararg groups: Pair<String, Map<Form, List<String?>>>) =
-    ending to Ending(beforeEnding, mapOf(*groups))
+private fun ending(
+    ending: String,
+    possibleBase: (String) -> Boolean,
+    vararg groups: Pair<String, Map<Form, List<String?>>>
+) =
+    ending to Ending(possibleBase, mapOf(*groups))
 
 private fun group(vararg forms: Pair<Form, List<String?>>) = group("", *forms)
 

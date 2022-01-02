@@ -45,6 +45,22 @@ private val VERB_ENDINGS = mapOf(
             IMPERATIU("a", "i", "em", "eu", "in")
         ),
         group(
+            "anar",
+            PRESENT("vaig", "vas", "va", null, null, "van"),
+            FUTUR("anire", "aniras", "anira", "anirem", "anireu", "aniran"),
+            SUB_PRESENT("vagi", "vagis", "vagi", null, null, "vagin"),
+            CONDICIONAL("aniria", "aniries", "aniria", "aniriem", "anirieu", "anirien"),
+            IMPERATIU("ves", "vagi", null, null, "vagin")
+        ),
+        group(
+            "estar",
+            PRESENT("estic", "estas", null, null, null, "estan"),
+            SIMPLE("estigui", "estigueres", "estigue", "estiguerem", "estiguereu", "estigueren"),
+            SUB_PRESENT("estigui", "estiguis", "estigui", "estiguem", "estigueu", "estiguin"),
+            SUB_IMPERFET("estigues", "estiguessis", "estigues", "estiguessim", "estiguessiu", "estiguessin"),
+            IMPERATIU("estigues", "estigui", "estiguem", "estigueu", "estiguin")
+        ),
+        group(
             "-a/-ai",
             SIMPLE("i"),
             SUB_PRESENT("i", "is", "i", null, null, "in"),
@@ -181,20 +197,6 @@ private val VERB_ENDINGS = mapOf(
 )
 
 private val IRREGULAR_VERBS = mapOf(
-    "anar" to listOf(
-        "vaig", "vas", "va", "van",
-        "anire", "aniras", "anira", "anirem", "anireu", "aniran",
-        "vagi", "vagis", "vagi", "vagin",
-        "aniria", "aniries", "aniria", "aniriem", "anirieu", "anirien",
-        "ves", "vagi", "vagin"
-    ),
-    "estar" to listOf(
-        "estic", "estas", "estan",
-        "estigui", "estigueres", "estigue", "estiguerem", "estiguereu", "estigueren",
-        "estigui", "estiguis", "estigui", "estiguem", "estigueu", "estiguin",
-        "estigues", "estiguessis", "estigues", "estiguessim", "estiguessiu", "estiguessin",
-        "estigues", "estigui", "estiguem", "estigueu", "estiguin"
-    ),
     "ser" to listOf(
         "sent", "essent",
         "estat", "estada", "estats", "estades", "sigut", "siguda", "siguts", "sigudes",

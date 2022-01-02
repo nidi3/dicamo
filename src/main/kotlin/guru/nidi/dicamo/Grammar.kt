@@ -46,15 +46,21 @@ fun infinitivesOf(word: String): List<String> {
                 .filter { ending -> normalized.endsWith(ending) }
                 .maxByOrNull { ending -> ending.length }
                 ?.let { longestEnding ->
-                    baseInGroup(word.dropLast(longestEnding.length), name)
+                    baseInGroup(normalized.dropLast(longestEnding.length), name)
                         ?.replaceEnding(longestEnding, infEnding)
                 }
                 ?.filterNot { inf -> inf in VERB_TYPES }
                 ?: listOf()
         }.toSet()
-    }
+    }.map { addUmlaut(it) }
     log.debug("Infinitives of $word: $infs")
     return infs
+}
+
+private fun addUmlaut(s: String): String {
+    //TODO not finished, or diacritic insensitive search?
+    if (s.endsWith("orrer")) return s.dropLast(5)+"órrer"
+    return s
 }
 
 internal fun String.replaceEnding(oldEnding: String, newEnding: String): List<String> {

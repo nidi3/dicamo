@@ -112,6 +112,7 @@ class GrammarTest {
             hagut,      hager/haver/hagre/heure/hagutir
             hec,        hecer/hecre/heure/hecir
             corres,     corrar/correr/corrre/correndre/correir
+            corregut,   correger/correr/corregre/corregutir
 """
     )
     fun testInfinitivesOf(word: String, expected: String?) {

@@ -239,12 +239,28 @@ val verbs = mapOf(
             CONDICIONAL("iria", "iries", "iria", "iríem", "iríeu", "irien"),
             IMPERATIU("", "i", "im", "iu", "in"),
         ),
+        //****************** incoatiu
         group(
-            "incoatius",
+            "incoatiu",
             PRESENT("eixo", "eixes", "eix", null, null, "eixen"),
             SUB_PRESENT("eixi", "eixis", "eixi", null, null, "eixin"),
             IMPERATIU("eix", "eixi", null, null, "eixin")
         ),
+        group(
+            "acompl,compl,incompl,recompl,supl",
+            PARTICIPI(null, null, null, null, "ert", "erta", "erts", "ertes"),
+            PRESENT("eixo", "eixes", "eix", null, null, "eixen"),
+            SUB_PRESENT("eixi", "eixis", "eixi", null, null, "eixin"),
+            IMPERATIU("eix", "eixi", null, null, "eixin")
+        ),
+        group(
+            "-impr/-imprim",
+            PARTICIPI("es", "esa", "esos", "eses"),
+            PRESENT("eixo", "eixes", "eix", null, null, "eixen"),
+            SUB_PRESENT("eixi", "eixis", "eixi", null, null, "eixin"),
+            IMPERATIU("eix", "eixi", null, null, "eixin")
+        ),
+        //****************** pur
         group(
             "-cull/-coll,-surt/-sort,-cup/-cop",
             PRESENT("o", "s", "", null, null, "en"),
@@ -252,43 +268,10 @@ val verbs = mapOf(
             IMPERATIU("", "i", null, null, "in")
         ),
         group(
-            "-cus/-cos",
-            PRESENT("o", "es", "", null, null, "en"),
-            SUB_PRESENT("i", "is", "i", null, null, "in"),
-            IMPERATIU("", "i", null, null, "in")
-        ),
-        group(
-            "-tus/-toss",
-            PRESENT("so", "ses", "", null, null, "sen"),
-            SUB_PRESENT("si", "sis", "si", null, null, "sin"),
-            IMPERATIU("", "si", null, null, "sin")
-        ),
-        group(
             "ompl,desompl,reompl",
             PARTICIPI(null, null, null, null, "ert", "erta", "erts", "ertes"),
             PRESENT(null, "es", "e"),
             IMPERATIU("e"),
-        ),
-        group(
-            "acompl,compl,incompl,recompl,supl",
-            PARTICIPI(null, null, null, null, "ert", "erta", "erts", "ertes")
-        ),
-        group(
-            "-impr/-imprim",
-            PARTICIPI("es", "esa", "esos", "eses")
-        ),
-        group(
-            "ob/obr",
-            PRESENT(null, "res", "re"),
-            IMPERATIU("re"),
-        ),
-        group(
-            "-ob/-obr",
-            PARTICIPI("ert", "erta", "erts", "ertes")
-        ),
-        group(
-            "-mor",
-            PARTICIPI("t", "ta", "ts", "tes")
         ),
         group(
             "-t/-ten",
@@ -311,6 +294,31 @@ val verbs = mapOf(
             SUB_IMPERFET("ingues", "inguessis", "ingues", "inguessim", "inguessiu", "inguessin"),
             CONDICIONAL("indria", "indries", "indria", "indriem", "indrieu", "indrien"),
             IMPERATIU("ine", "ingui", "inguem", "eniu", "inguin")
+        ),
+        group(
+            "ob/obr",
+            PRESENT(null, "res", "re"),
+            IMPERATIU("re"),
+        ),
+        group(
+            "-ob/-obr",
+            PARTICIPI("ert", "erta", "erts", "ertes")
+        ),
+        group(
+            "-mor",
+            PARTICIPI("t", "ta", "ts", "tes")
+        ),
+        group(
+            "-cus/-cos",
+            PRESENT("o", "es", "", null, null, "en"),
+            SUB_PRESENT("i", "is", "i", null, null, "in"),
+            IMPERATIU("", "i", null, null, "in")
+        ),
+        group(
+            "-tus/-toss",
+            PRESENT("so", "ses", "", null, null, "sen"),
+            SUB_PRESENT("si", "sis", "si", null, null, "sin"),
+            IMPERATIU("", "si", null, null, "sin")
         ),
         group(
             "-llu",

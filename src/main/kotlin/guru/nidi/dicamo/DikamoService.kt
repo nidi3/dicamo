@@ -36,13 +36,17 @@ object DikamoService {
 
     fun queryVerb(query: String): List<List<Entry>> {
         return try {
-            infinitivesOf(query)
-                .filter { inf -> fetch(CONJUG_URL, inf).title() == "Conjugació" }
-                .map { inf ->
-                    listOf(
-                        Entry("/conjug/$inf#${query.normalize()}", query), Entry("/?q=$inf&go", "($inf)")
-                    )
-                }
+            infinitivesOf(query).let { (dict, guess) ->
+                (if (dict.isEmpty()) guess else dict)
+                    .filter { inf -> fetch(CONJUG_URL, inf).title() == "Conjugació" }
+                    .map { inf ->
+                        val base = inf.pronounLess()
+                        listOf(
+                            Entry("/conjug/$inf#${query.normalize().pronounLess()}", query),
+                            Entry("/?q=$base&go", "($base)")
+                        )
+                    }
+            }
         } catch (e: Exception) {
             log.error("Error querying verb {}", query, e)
             listOf(listOf(Entry(null, e.message ?: "Unknown error")))

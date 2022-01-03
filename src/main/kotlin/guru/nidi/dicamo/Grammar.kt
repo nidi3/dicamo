@@ -1,7 +1,6 @@
 package guru.nidi.dicamo
 
 import org.slf4j.LoggerFactory
-import java.text.Normalizer
 import kotlin.math.max
 import kotlin.math.min
 
@@ -33,19 +32,29 @@ private val effectiveEndings: Map<String, FlatEnding> =
 
 private infix fun IntRange.union(other: IntRange) = IntRange(min(first, other.first), max(last, other.last))
 
-private fun baseInGroup(base: String, group: String): String? {
+private fun baseInGroup(base: String, ending: String, group: String): String? {
+    val type = VerbList.verbs[base + ending]?.type ?: Type.UNKNOWN
     val fromBase = group.substringBefore("/")
     val toBase = group.substringAfter("/")
-    if (group == "") return base
-    if (group == "incoatius") return base //TODO use list of incoatius verbs?
-    if (fromBase == base)
-        return base.dropLast(fromBase.length) + toBase
-    if (fromBase.firstOrNull() == '-' && base.endsWith(fromBase.drop(1)))
-        return base.dropLast(fromBase.length - 1) + toBase.drop(1)
-    return null
+    return when {
+        group == "" -> if (type != Type.INCOATIU) base else null
+        group == "incoatiu" -> if (type != Type.PUR) base else null
+        fromBase == base -> base.dropLast(fromBase.length) + toBase
+        fromBase.firstOrNull() == '-' && base.endsWith(fromBase.drop(1)) ->
+            base.dropLast(fromBase.length - 1) + toBase.drop(1)
+        else -> null
+    }
 }
 
-fun infinitivesOf(word: String): List<String> {
+fun infinitivesOf(word: String): Pair<List<String>, List<String>> {
+    val pronounLess = word.substringBeforeLast('-').substringBeforeLast('\'')
+    val baseInfs = baseInfinitivesOf(pronounLess)
+    val infs = baseInfs.mapNotNull { VerbList.verbs[it]?.name }
+    log.debug("Infinitives of '$word': $infs / $baseInfs")
+    return Pair(infs, baseInfs.flatMap { addDiacritics(it) })
+}
+
+private fun baseInfinitivesOf(word: String): List<String> {
     val normalized = word.normalize()
     val infs = effectiveEndings.flatMap { (infEnding, ending) ->
         ending.groups.flatMap { (name, group) ->
@@ -53,15 +62,14 @@ fun infinitivesOf(word: String): List<String> {
                 .filter { ending -> normalized.endsWith(ending) }
                 .maxByOrNull { ending -> ending.length }
                 ?.let { longestEnding ->
-                    val base = baseInGroup(normalized.dropLast(longestEnding.length), name)
+                    val base = baseInGroup(normalized.dropLast(longestEnding.length), infEnding, name)
                     if (base == null || !ending.possibleBase(base)) null
                     else base.replaceEnding(longestEnding, infEnding)
                 }
                 ?.filterNot { inf -> inf in VERB_TYPES }
                 ?: listOf()
         }.toSet()
-    }.flatMap { addDiacritics(it) }
-    log.debug("Infinitives of $word: $infs")
+    }
     return infs
 }
 
@@ -97,23 +105,3 @@ internal fun String.replaceEnding(oldEnding: String, newEnding: String): List<St
     }
     return newBase.map { it + newEnding }
 }
-
-private fun String.frontToBack() = when {
-    endsWith("qu") -> listOf(this, dropLast(2) + "c") //qüe -> qua, que -> ca
-    endsWith("c") -> listOf(dropLast(1) + "ç") //ce -> ça
-    endsWith("g") -> listOf(dropLast(1) + "j") //ge -> ja
-    endsWith("gu") -> listOf(this, dropLast(2) + "g") //güe -> gua, gue -> ga
-    else -> listOf(this)
-}
-
-private fun String.backToFront() = when {
-    endsWith("j") -> listOf(dropLast(1) + "g") //jo -> gi
-    endsWith("ç") -> listOf(dropLast(1) + "c") //ço -> ce
-    else -> listOf(this)
-}
-
-private fun String.startsWithBack() = isEmpty() || first() in "aou"
-private fun String.startsWithFront() = isNotEmpty() && first() in "ei"
-
-fun String.normalize() =
-    Regex("\\p{InCombiningDiacriticalMarks}+").replace(Normalizer.normalize(this, Normalizer.Form.NFKD), "")

@@ -25,8 +25,8 @@ object VerbList {
 data class Verb(val name: String, val url: String, val type: Type, val frequency: Int) {
     fun antiPronominal() =
         if (name.endPronoun() != "") Verb(name.pronounLess(), url.pronounLess(), UNKNOWN, -1)
-        else if (name.endsWith("re")) Verb(name + "'s", url + "'s", UNKNOWN, -1)
-        else Verb(name + "-se", url + "-se", UNKNOWN, -1)
+        else if (name.endsWith("re")) Verb("$name's", "$url's", UNKNOWN, -1)
+        else Verb("$name-se", "$url-se", UNKNOWN, -1)
 }
 
 

@@ -10,7 +10,7 @@ import org.jsoup.select.Evaluator
 import java.net.URL
 
 object VerbListCrawler {
-    val baseUrl = "https://ca.wiktionary.org"
+    private const val baseUrl = "https://ca.wiktionary.org"
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -50,7 +50,7 @@ object VerbListCrawler {
         }
 
 
-    fun parseType(document: Document): Type {
+    private fun parseType(document: Document): Type {
         fun parseString(s: String): Type {
             val incoatiu = "incoativa" in s
             val pur = "pura" in s
@@ -74,7 +74,7 @@ object VerbListCrawler {
         return if (tercera.size == 1) tercera.first() else UNKNOWN
     }
 
-    fun fetchFrequency(word: String): Int? = try {
+    private fun fetchFrequency(word: String): Int? = try {
         val document =
             Jsoup.connect("https://ctilc.iec.cat/scripts/CTILCQConc_Lemes2.asp")
                 .data(

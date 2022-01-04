@@ -46,18 +46,33 @@ private fun baseInGroup(base: String, ending: String, group: String): String? {
     }
 }
 
-fun singularsOf(word: String): List<String> {
-    val res = mutableListOf<String>()
-    if (word.endsWith("s")) res += word.dropLast(1)
-    if (word.endsWith("es")) res += word.dropLast(2).frontToBack().map { it + "a" }
-    if (word.endsWith("ns") && word.dropLast(2).last() in "aeiou") res += word.dropLast(2)
-    if (word.endsWith("sos") || word.endsWith("xos") ||
-        word.endsWith("scos") || word.endsWith("stos") || word.endsWith("xtos")
-    )
-        res += word.dropLast(2)
-    if (word.endsWith("ssos")) res += word.dropLast(3)
-    if (word.endsWith("jos")) res += word.dropLast(3) + "ig"
-    if (word.endsWith("itjos")) res += word.dropLast(5) + "ig"
+fun baseNounsOf(word: String): List<String> =
+    singularNounsOf(word).flatMap { masculinNounsOf(it) + it } + masculinNounsOf(word)
+
+fun masculinNounsOf(word: String): List<String> {
+    val res = word.replaceEnd("a", "") +
+            word.replaceEnd("da", "t") +
+            word.replaceEnd("ba", "p") +
+            word.replaceEnd("va", "f") +
+            word.replaceEnd("ssa", "s") +
+            word.replaceEnd("na", "") +
+            word.replaceEnd("essa", "")
+    log.debug("Masculins of '$word': $res")
+    return res
+}
+
+fun singularNounsOf(word: String): List<String> {
+    val res = word.replaceEnd("s", "") +
+            word.replaceEnd("sos", "s") +
+            word.replaceEnd("xos", "x") +
+            word.replaceEnd("scos", "sc") +
+            word.replaceEnd("stos", "st") +
+            word.replaceEnd("xtos", "xt") +
+            word.replaceEnd("ns") { if (it.last() in "aeiou") listOf(it) else listOf() } +
+            word.replaceEnd("ssos", "s") +
+            word.replaceEnd("jos", "ig") +
+            word.replaceEnd("itjos", "ig") +
+            word.replaceEnd("es") { it.frontToBack().map { it + "a" } }
     log.debug("Singulars of '$word': $res")
     return res
 }

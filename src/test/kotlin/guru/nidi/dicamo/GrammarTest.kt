@@ -48,9 +48,26 @@ class GrammarTest {
             boscos,     bosco/bosc
 """
     )
-    fun singularsOf(plural: String, singulars: String) {
+    fun singularNounsOf(plural: String, singulars: String) {
         val expectedList = singulars.split("/")
-        assertEquals(expectedList, singularsOf(plural))
+        assertEquals(expectedList, singularNounsOf(plural))
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        textBlock = """
+            noia,           noi
+            neboda,         nebod/nebot
+            lloba,          llob/llop
+            serva,          serv/serf
+            gossa,          goss/gos
+            germana,        german/germa
+            sacerdotessa,   sacerdotess/sacerdotes/sacerdot
+"""
+    )
+    fun masculinNounsOf(feminin: String, masculins: String) {
+        val expectedList = masculins.split("/")
+        assertEquals(expectedList, masculinNounsOf(feminin))
     }
 
     @ParameterizedTest

@@ -32,4 +32,12 @@ fun String.backToFront() = when {
 fun String.startsWithBack() = isEmpty() || first() in "aou"
 fun String.startsWithFront() = isNotEmpty() && first() in "ei"
 
+fun String.replaceEnd(old: String, new: String): List<String> =
+    if (!endsWith(old)) listOf()
+    else listOf(this.dropLast(old.length) + new)
+
+fun String.replaceEnd(old: String, then: (String) -> List<String>): List<String> =
+    if (!endsWith(old)) listOf()
+    else then(this.dropLast(old.length))
+
 

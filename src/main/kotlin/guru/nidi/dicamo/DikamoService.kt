@@ -38,11 +38,11 @@ object DikamoService {
         query.normalize().let { querySingular(it) + queryVerb(it) }
 
     private fun querySingular(query: String): List<List<Entry>> =
-        singularsOf(query).mapNotNull { singular ->
-            val results = query(singular)
+        baseNounsOf(query).mapNotNull { base ->
+            val results = query(base)
             val entry =
                 if (results.size == 1) results[0][0]
-                else results.find { it[0].word.normalize() == singular }?.get(0)
+                else results.find { it[0].word.normalize() == base }?.get(0)
             entry?.let {
                 listOf(
                     Entry(entry.link, query),

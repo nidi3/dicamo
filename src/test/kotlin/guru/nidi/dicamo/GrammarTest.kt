@@ -28,6 +28,32 @@ class GrammarTest {
     }
 
     @ParameterizedTest
+    @CsvSource(
+        textBlock = """
+            avis,       avi
+            pares,      pare/para
+            fargues,    fargue/fargua/farga
+            oques,      oque/oqua/oca
+            llengues,   llengue/llengua/llenga
+            pasques,    pasque/pasqua/pasca
+            places,     place/plaça
+            pluges,     pluge/pluja
+            platges,    platge/platja
+            pans,       pan/pa
+            gasos,      gaso/gas
+            gossos,     gosso/goss/gos
+            calaixos,   calaixo/calaix
+            fajos,      fajo/faig
+            mitjos,     mitjo/mitig/mig
+            boscos,     bosco/bosc
+"""
+    )
+    fun singularsOf(plural: String, singulars: String) {
+        val expectedList = singulars.split("/")
+        assertEquals(expectedList, singularsOf(plural))
+    }
+
+    @ParameterizedTest
     @CsvFileSource(resources = ["verbs.csv"])
     fun testInfinitivesOf(word: String, dict: String?, possible: String?) {
         val dictList = dict?.split("/") ?: listOf()

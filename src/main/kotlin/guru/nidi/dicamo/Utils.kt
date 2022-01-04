@@ -10,6 +10,8 @@ fun String.endPronoun() = when {
 
 fun String.pronounLess() = dropLast(endPronoun().length)
 
+fun String.ending() = pronounLess().takeLast(2)
+
 fun String.normalize() =
     Regex("\\p{InCombiningDiacriticalMarks}+").replace(Normalizer.normalize(this, Normalizer.Form.NFKD), "")
 

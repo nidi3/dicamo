@@ -46,6 +46,22 @@ private fun baseInGroup(base: String, ending: String, group: String): String? {
     }
 }
 
+fun singularsOf(word: String): List<String> {
+    val res = mutableListOf<String>()
+    if (word.endsWith("s")) res += word.dropLast(1)
+    if (word.endsWith("es")) res += word.dropLast(2).frontToBack().map { it + "a" }
+    if (word.endsWith("ns") && word.dropLast(2).last() in "aeiou") res += word.dropLast(2)
+    if (word.endsWith("sos") || word.endsWith("xos") ||
+        word.endsWith("scos") || word.endsWith("stos") || word.endsWith("xtos")
+    )
+        res += word.dropLast(2)
+    if (word.endsWith("ssos")) res += word.dropLast(3)
+    if (word.endsWith("jos")) res += word.dropLast(3) + "ig"
+    if (word.endsWith("itjos")) res += word.dropLast(5) + "ig"
+    log.debug("Singulars of '$word': $res")
+    return res
+}
+
 fun infinitivesOf(word: String): Pair<List<String>, List<String>> {
     val pronounLess = word.substringBeforeLast('-').substringBeforeLast('\'')
     val baseInfs = baseInfinitivesOf(pronounLess)
@@ -55,14 +71,13 @@ fun infinitivesOf(word: String): Pair<List<String>, List<String>> {
 }
 
 private fun baseInfinitivesOf(word: String): List<String> {
-    val normalized = word.normalize()
     val infs = effectiveEndings.flatMap { (infEnding, ending) ->
         ending.groups.flatMap { (name, group) ->
             group
-                .filter { ending -> normalized.endsWith(ending) }
+                .filter { ending -> word.endsWith(ending) }
                 .maxByOrNull { ending -> ending.length }
                 ?.let { longestEnding ->
-                    val base = baseInGroup(normalized.dropLast(longestEnding.length), infEnding, name)
+                    val base = baseInGroup(word.dropLast(longestEnding.length), infEnding, name)
                     if (base == null || !ending.possibleBase(base)) null
                     else base.replaceEnding(longestEnding, infEnding)
                 }

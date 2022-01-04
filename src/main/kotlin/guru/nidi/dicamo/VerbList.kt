@@ -11,19 +11,22 @@ object VerbList {
     fun readVerbs(): List<Verb> {
         return verbFile.readLines().map { line ->
             line.split(Regex("""\s+""")).let { parts ->
-                Verb(parts[0], parts[1], valueOf(parts[2]))
+                Verb(
+                    parts[0],
+                    parts[1],
+                    if (parts.size <= 2 || parts[2] == "") UNKNOWN else valueOf(parts[2]),
+                    if (parts.size <= 3 || parts[3] == "") -1 else Integer.parseInt(parts[3])
+                )
             }
         }
     }
 }
 
-data class Verb(val name: String, val url: String, val type: Type) {
-    fun ending() = name.pronounLess().takeLast(2)
-
+data class Verb(val name: String, val url: String, val type: Type, val frequency: Int) {
     fun antiPronominal() =
-        if (name.endPronoun() != "") Verb(name.pronounLess(), url.pronounLess(), UNKNOWN)
-        else if (name.endsWith("re")) Verb(name + "'s", url + "'s", UNKNOWN)
-        else Verb(name + "-se", url + "-se", UNKNOWN)
+        if (name.endPronoun() != "") Verb(name.pronounLess(), url.pronounLess(), UNKNOWN, -1)
+        else if (name.endsWith("re")) Verb(name + "'s", url + "'s", UNKNOWN, -1)
+        else Verb(name + "-se", url + "-se", UNKNOWN, -1)
 }
 
 

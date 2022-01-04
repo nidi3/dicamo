@@ -14,6 +14,11 @@ window.addEventListener('pageshow', () => {
 });
 
 input.addEventListener('input', () => load());
+input.addEventListener('keypress', e => {
+  if (e.key === 'Enter') {
+    options.firstChild?.firstChild?.click();
+  }
+});
 
 async function load(go) {
   if (input.value.length <= 2) {
@@ -26,7 +31,7 @@ async function load(go) {
         } else {
           clear();
           addEntries(entries);
-          await query('/verb', entries => addEntries(entries, true));
+          await query('/extended', entries => addEntries(entries, true));
         }
       });
     } catch (e) {

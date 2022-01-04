@@ -2,6 +2,7 @@ package guru.nidi.dicamo
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
 import org.slf4j.LoggerFactory
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -19,38 +20,53 @@ private const val ENTRY_URL = "/lexicx.jsp?GECART="
 object DikamoService {
     private val log = LoggerFactory.getLogger(javaClass)
 
-    fun query(query: String): List<List<Entry>> {
-        try {
-            val document = fetch(QUERY_URL, query)
-            if (document.head().childNodeSize() == 1) {
-                val script = document.head().childNode(0).childNode(0).toString()
-                return listOf(wordId(script)?.let { listOf(Entry("/entry/$it", query)) } ?: listOf())
-            }
+    fun query(query: String): List<List<Entry>> = try {
+        val document = fetch(QUERY_URL, query)
+        if (document.head().childNodeSize() == 1) {
+            val script = document.head().childNode(0).childNode(0).toString()
+            listOf(wordId(script)?.let { listOf(Entry("/entry/$it", query)) } ?: listOf())
+        } else {
             val words = document.select(".CentreTextTD table")[0].select("a")
-            return words.map { listOf(Entry("/entry/" + wordId(it.attr("href")), it.text())) }
-        } catch (e: Exception) {
-            log.error("Error querying {}", query, e)
-            return listOf(listOf(Entry(null, e.message ?: "Unknown error")))
+            words.map { listOf(Entry("/entry/" + wordId(it.attr("href")), it.text())) }
         }
+    } catch (e: Exception) {
+        log.error("Error querying {}", query, e)
+        listOf(listOf(Entry(null, e.message ?: "Unknown error")))
     }
 
-    fun queryVerb(query: String): List<List<Entry>> {
-        return try {
-            infinitivesOf(query).let { (dict, guess) ->
-                (if (dict.isEmpty()) guess else dict)
-                    .filter { inf -> fetch(CONJUG_URL, inf).title() == "Conjugació" }
-                    .map { inf ->
-                        val base = inf.pronounLess()
-                        listOf(
-                            Entry("/conjug/$inf#${query.normalize().pronounLess()}", query),
-                            Entry("/?q=$base&go", "($base)")
-                        )
-                    }
+    fun extendedQuery(query: String): List<List<Entry>> =
+        query.normalize().let { querySingular(it) + queryVerb(it) }
+
+    private fun querySingular(query: String): List<List<Entry>> =
+        singularsOf(query).mapNotNull { singular ->
+            val results = query(singular)
+            val entry =
+                if (results.size == 1) results[0][0]
+                else results.find { it[0].word.normalize() == singular }?.get(0)
+            entry?.let {
+                listOf(
+                    Entry(entry.link, query),
+                    Entry(entry.link, "(${entry.word})")
+                )
             }
-        } catch (e: Exception) {
-            log.error("Error querying verb {}", query, e)
-            listOf(listOf(Entry(null, e.message ?: "Unknown error")))
         }
+
+    private fun queryVerb(query: String): List<List<Entry>> = try {
+        infinitivesOf(query).let { (dict, guess) ->
+            dict
+                .ifEmpty { guess }
+                .filter { inf -> fetch(CONJUG_URL, inf).title() == "Conjugació" }
+                .map { inf ->
+                    val base = inf.pronounLess()
+                    listOf(
+                        Entry("/conjug/$inf#${query.normalize().pronounLess()}", query),
+                        Entry("/?q=$base&go", "($base)")
+                    )
+                }
+        }
+    } catch (e: Exception) {
+        log.error("Error querying verb {}", query, e)
+        listOf(listOf(Entry(null, e.message ?: "Unknown error")))
     }
 
     fun fetchEntry(id: String) = formatDocument(fetch(ENTRY_URL, id), "entry").toString()
@@ -62,9 +78,14 @@ object DikamoService {
             addClass(type)
             select(".enc").forEach {
                 val word = it.textNodes().first().text().trim()
+                addAfter(it, wikiLink(document, word))
                 for (lang in listOf("es", "en", "de", "fr", "it").reversed()) {
-                    it.parent()!!.insertChildren(it.elementSiblingIndex() + 1, translateLink(document, word, lang))
+                    addAfter(it, translateLink(document, word, lang))
                 }
+            }
+            select(".verb").forEach {
+                val word = it.textNodes().first().text().trim()
+                addAfter(it, entryLink(document, word.pronounLess()))
             }
             select("font").forEach { it.removeAttr("size") }
             select("br,img").forEach { it.remove() }
@@ -80,18 +101,27 @@ object DikamoService {
             select(".VFORMA").forEach { span -> span.attr("id", span.text().normalize()) }
         }
 
+    private fun addAfter(e: Element, new: Element) = e.parent()!!.insertChildren(e.elementSiblingIndex() + 1, new)
+
     private fun translateLink(document: Document, word: String, lang: String) =
+        link(document, "https://translate.google.ch/?sl=ca&tl=$lang&text=" + encode(word), "$lang ")
+
+    private fun entryLink(document: Document, word: String) =
+        link(document, "/?q=$word&go", "definiciò")
+
+    private fun wikiLink(document: Document, word: String) =
+        link(document, "https://ca.wikipedia.org/wiki/$word", "viquipèdia")
+
+    private fun link(document: Document, href: String, text: String) =
         document.createElement("a").apply {
-            attr(
-                "href", "https://translate.google.ch/?sl=ca&tl=$lang&text=" + encode(word)
-            )
-            text("$lang ")
+            attr("href", href)
+            text(text)
         }
 
-    private fun wordId(word: String): String? {
-        val matcher = WORD.matcher(word)
-        return if (!matcher.find()) null else matcher.group(1)
-    }
+    private fun wordId(word: String): String? =
+        WORD.matcher(word).let { matcher ->
+            if (!matcher.find()) null else matcher.group(1)
+        }
 
     private fun fetch(path: String, query: String) = Jsoup.connect(url(path, query)).get()
 

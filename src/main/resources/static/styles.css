@@ -18,6 +18,7 @@ input, .options, table {
 .enc, .verb {
     font-weight: bold;
     font-size: 150%;
+    margin-right: .5em;
 }
 
 .background {

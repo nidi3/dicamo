@@ -7,7 +7,7 @@ document.documentElement.addEventListener('click', async () => {
     const s = window.getSelection();
     s.modify('move', 'backward', 'word');
     s.modify('extend', 'forward', 'word');
-    const word = window.getSelection().toString().replace(/.*?'|[,.]/, '');
+    const word = window.getSelection().toString().replace(/.*?'|[,.)\]]/, '');
     const {query, entries} = await fetchJson('/query/' + word);
     if (entries.length === 1) {
       location.href = entries[0][0].link;

@@ -2,21 +2,22 @@ package guru.nidi.dicamo
 
 import guru.nidi.dicamo.Type.UNKNOWN
 import guru.nidi.dicamo.Type.valueOf
-import java.io.File
+import java.lang.Thread.currentThread
 
 object VerbList {
-    val verbFile = File("src/main/resources/verbs.txt")
     val verbs = readVerbs().associateBy { it.name.pronounLess().normalize() }
 
     fun readVerbs(): List<Verb> {
-        return verbFile.readLines().map { line ->
-            line.split(Regex("""\s+""")).let { parts ->
-                Verb(
-                    parts[0],
-                    parts[1],
-                    if (parts.size <= 2 || parts[2] == "") UNKNOWN else valueOf(parts[2]),
-                    if (parts.size <= 3 || parts[3] == "") -1 else Integer.parseInt(parts[3])
-                )
+        return currentThread().contextClassLoader.getResourceAsStream("verbs.txt")!!.use {
+            it.bufferedReader().readLines().map { line ->
+                line.split(Regex("""\s+""")).let { parts ->
+                    Verb(
+                        parts[0],
+                        parts[1],
+                        if (parts.size <= 2 || parts[2] == "") UNKNOWN else valueOf(parts[2]),
+                        if (parts.size <= 3 || parts[3] == "") -1 else Integer.parseInt(parts[3])
+                    )
+                }
             }
         }
     }

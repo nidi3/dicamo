@@ -110,7 +110,7 @@ object DikamoService {
         link(document, "/?q=$word&go", "definiciò")
 
     private fun wikiLink(document: Document, word: String) =
-        link(document, "https://ca.wikipedia.org/wiki/$word", "viquipèdia")
+        link(document, "https://ca.wikipedia.org/wiki/$word", "viquipèdia ")
 
     private fun link(document: Document, href: String, text: String) =
         document.createElement("a").apply {

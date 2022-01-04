@@ -2,26 +2,27 @@ package guru.nidi.dicamo
 
 import guru.nidi.dicamo.Type.*
 import guru.nidi.dicamo.VerbList.readVerbs
-import guru.nidi.dicamo.VerbList.verbFile
 import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Evaluator
+import java.io.File
 import java.net.URL
 
 object VerbListCrawler {
+    private val verbFile = File("src/main/resources/verbs.txt")
     private const val baseUrl = "https://ca.wiktionary.org"
 
     @JvmStatic
     fun main(args: Array<String>) {
-        writeVerbs(readVerbs().map { verb ->
-            if (verb.frequency >= 0) verb
-            else verb.copy(frequency = fetchFrequency(verb.name.pronounLess()) ?: -1)
-        })
 //        writeVerbs(readVerbs().map { verb ->
-//            if (verb.type != UNKNOWN) verb
-//            else verb.copy(type = fetchType(verb))
+//            if (verb.frequency >= 0) verb
+//            else verb.copy(frequency = fetchFrequency(verb.name.pronounLess()) ?: -1)
 //        })
+        writeVerbs(readVerbs().map { verb ->
+            if (verb.type != UNKNOWN) verb
+            else verb.copy(type = fetchType(verb))
+        })
     }
 
     fun fetchVerbs(): List<Verb> {
@@ -52,8 +53,8 @@ object VerbListCrawler {
 
     private fun parseType(document: Document): Type {
         fun parseString(s: String): Type {
-            val incoatiu = "incoativa" in s
-            val pur = "pura" in s
+            val incoatiu = "incoativ" in s //match incoativa,incoatives
+            val pur = "pura" in s //don't match purs
             return if (incoatiu && pur) BOTH else if (incoatiu) INCOATIU else if (pur) PUR else UNKNOWN
         }
 
@@ -71,7 +72,7 @@ object VerbListCrawler {
             if (irregular.isNotEmpty()) return PUR
         }
 
-        return if (tercera.size == 1) tercera.first() else UNKNOWN
+        return if (tercera.size == 1) tercera.first() else BOTH
     }
 
     private fun fetchFrequency(word: String): Int? = try {

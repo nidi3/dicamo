@@ -260,7 +260,7 @@ afavorir                      /wiki/afavorir                INCOATIU        4309
 afeblir                       /wiki/afeblir                 INCOATIU         664
 afeccionar-se                 /wiki/afeccionar-se           NONE              82
 afectar                       /wiki/afectar                 NONE            7703
-afegir                        /wiki/afegir                  BOTH           16706
+afegir                        /wiki/afegir                  INCOATIU       16706
 afeixar                       /wiki/afeixar                 NONE               2
 afeixegar                     /wiki/afeixegar               NONE               9
 afeixugar                     /wiki/afeixugar               NONE             156
@@ -1710,7 +1710,7 @@ conèixer                      /wiki/con%C3%A8ixer           NONE           4713
 confabular                    /wiki/confabular              NONE              59
 confeccionar                  /wiki/confeccionar            NONE             806
 confederar                    /wiki/confederar              NONE              20
-confegir                      /wiki/confegir                BOTH             510
+confegir                      /wiki/confegir                INCOATIU         510
 conferenciar                  /wiki/conferenciar            NONE              68
 conferir                      /wiki/conferir                INCOATIU        1158
 confessar                     /wiki/confessar               NONE            5371
@@ -1885,7 +1885,7 @@ corderar                      /wiki/corderar                NONE               9
 coregnar                      /wiki/coregnar                NONE               0
 corejar                       /wiki/corejar                 NONE             114
 coresforçar-se                /wiki/coresfor%C3%A7ar-se     NONE               1
-corferir                      /wiki/corferir                BOTH              16
+corferir                      /wiki/corferir                INCOATIU          16
 corfondre's                   /wiki/corfondre%27s           NONE              15
 corgelar                      /wiki/corgelar                NONE              14
 corglaçar                     /wiki/corgla%C3%A7ar          NONE              16
@@ -3034,11 +3034,11 @@ destapar                      /wiki/destapar                NONE             553
 destapiar                     /wiki/destapiar               NONE               0
 destarotar                    /wiki/destarotar              NONE              62
 desteixinar-se                /wiki/desteixinar-se          NONE               8
-desteixir                     /wiki/desteixir               BOTH              51
+desteixir                     /wiki/desteixir               INCOATIU          51
 destemprar                    /wiki/destemprar              NONE               2
 destemptar                    /wiki/destemptar              NONE               1
 destensar                     /wiki/destensar               NONE              12
-destenyir                     /wiki/destenyir               BOTH              59
+destenyir                     /wiki/destenyir               INCOATIU          59
 destermenar                   /wiki/destermenar             NONE               0
 desterrar                     /wiki/desterrar               NONE             403
 desterrossar                  /wiki/desterrossar            NONE               9
@@ -3077,7 +3077,7 @@ desvariejar                   /wiki/desvariejar             NONE             209
 desvear                       /wiki/desvear                 NONE               0
 desvergonyir-se               /wiki/desvergonyir-se         INCOATIU          28
 desvesar                      /wiki/desvesar                NONE              14
-desvestir                     /wiki/desvestir               BOTH              98
+desvestir                     /wiki/desvestir               INCOATIU          98
 desvetllar                    /wiki/desvetllar              NONE            2317
 desviar                       /wiki/desviar                 NONE            1666
 desvincular                   /wiki/desvincular             NONE             142
@@ -3985,7 +3985,7 @@ englotir                      /wiki/englotir                INCOATIU          23
 engolar                       /wiki/engolar                 NONE              15
 engolfar                      /wiki/engolfar                NONE              47
 engolfar-se                   /wiki/engolfar-se             NONE              47
-engolir                       /wiki/engolir                 BOTH            1279
+engolir                       /wiki/engolir                 INCOATIU        1279
 engolosir                     /wiki/engolosir               INCOATIU           6
 engomar                       /wiki/engomar                 NONE               9
 engordir                      /wiki/engordir                INCOATIU           4
@@ -4269,7 +4269,7 @@ entrecriar                    /wiki/entrecriar              NONE               0
 entrecuixar                   /wiki/entrecuixar             NONE               3
 entredevorar-se               /wiki/entredevorar-se         NONE              10
 entredir                      /wiki/entredir                PUR                2
-entreferir-se                 /wiki/entreferir-se           BOTH               0
+entreferir-se                 /wiki/entreferir-se           INCOATIU           0
 entreforcar-se                /wiki/entreforcar-se          NONE               2
 entregar                      /wiki/entregar                NONE            2429
 entregirar-se                 /wiki/entregirar-se           NONE              81
@@ -4301,7 +4301,7 @@ entrespolar                   /wiki/entrespolar             NONE               0
 entresuar                     /wiki/entresuar               NONE              11
 entretallar                   /wiki/entretallar             NONE              13
 entretancar                   /wiki/entretancar             NONE               8
-entreteixir                   /wiki/entreteixir             BOTH              54
+entreteixir                   /wiki/entreteixir             INCOATIU          54
 entretelar                    /wiki/entretelar              NONE               0
 entretenir                    /wiki/entretenir              PUR             2714
 entretocar-se                 /wiki/entretocar-se           NONE               1
@@ -4351,7 +4351,7 @@ envermellonar                 /wiki/envermellonar           NONE               0
 envernissar                   /wiki/envernissar             NONE              72
 envescar                      /wiki/envescar                NONE              50
 envesprir                     /wiki/envesprir               INCOATIU           3
-envestir                      /wiki/envestir                BOTH             852
+envestir                      /wiki/envestir                INCOATIU         852
 envetar                       /wiki/envetar                 NONE              12
 enviar                        /wiki/enviar                  NONE           10857
 envidar                       /wiki/envidar                 NONE              32
@@ -4601,7 +4601,7 @@ escolaritzar                  /wiki/escolaritzar            NONE              51
 escoliar                      /wiki/escoliar                NONE               2
 escollar                      /wiki/escollar                NONE               1
 escollarar                    /wiki/escollarar              NONE               0
-escollir                      /wiki/escollir                INCOATIU        4448
+escollir                      /wiki/escollir                BOTH            4448
 escoltar                      /wiki/escoltar                NONE           19454
 escombrar                     /wiki/escombrar               NONE             654
 escometre                     /wiki/escometre               NONE             928
@@ -5222,7 +5222,7 @@ fenomenalitzar                /wiki/fenomenalitzar          NONE               0
 fènyer                        /wiki/f%C3%A8nyer             NONE              47
 fer                           /wiki/fer                     NONE          539024
 ferejar                       /wiki/ferejar                 NONE               1
-ferir                         /wiki/ferir                   BOTH            3022
+ferir                         /wiki/ferir                   INCOATIU        3022
 fermar                        /wiki/fermar                  NONE             480
 fermentar                     /wiki/fermentar               NONE             315
 ferrar                        /wiki/ferrar                  NONE             154
@@ -5370,7 +5370,7 @@ fraternitzar                  /wiki/fraternitzar            NONE              30
 fredejar                      /wiki/fredejar                NONE               3
 fredorejar                    /wiki/fredorejar              NONE               6
 fregar                        /wiki/fregar                  NONE            2494
-fregir                        /wiki/fregir                  BOTH             610
+fregir                        /wiki/fregir                  INCOATIU         610
 fremir                        /wiki/fremir                  INCOATIU          59
 frenar                        /wiki/frenar                  NONE            1262
 freqüentar                    /wiki/freq%C3%BCentar         NONE             917
@@ -5876,7 +5876,7 @@ inventar                      /wiki/inventar                NONE            3880
 inventariar                   /wiki/inventariar             NONE             154
 invertir                      /wiki/invertir                INCOATIU        1472
 investigar                    /wiki/investigar              NONE            1524
-investir                      /wiki/investir                BOTH             155
+investir                      /wiki/investir                INCOATIU         155
 inveterar-se                  /wiki/inveterar-se            NONE               1
 invitar                       /wiki/invitar                 NONE            1690
 invocar                       /wiki/invocar                 NONE            1667
@@ -6000,7 +6000,7 @@ llaviejar                     /wiki/llaviejar               NONE              13
 llavorar                      /wiki/llavorar                NONE              36
 llefardar                     /wiki/llefardar               NONE               0
 llegar                        /wiki/llegar                  NONE             469
-llegir                        /wiki/llegir                  BOTH           22625
+llegir                        /wiki/llegir                  INCOATIU       22625
 lleixar                       /wiki/lleixar                 NONE               0
 lleixivar                     /wiki/lleixivar               NONE               1
 llençar                       /wiki/llen%C3%A7ar            NONE            5016
@@ -6089,7 +6089,7 @@ malencertar                   /wiki/malencertar             NONE               0
 malencaminar                  /wiki/malencaminar            NONE               1
 malentendre                   /wiki/malentendre             NONE              32
 malfamar                      /wiki/malfamar                NONE               2
-malferir                      /wiki/malferir                BOTH              35
+malferir                      /wiki/malferir                INCOATIU          35
 malfiar-se                    /wiki/malfiar-se              NONE             462
 malfixar-se                   /wiki/malfixar-se             NONE               5
 malgastar                     /wiki/malgastar               NONE             269
@@ -6653,7 +6653,7 @@ penar                         /wiki/penar                   NONE             182
 pencar                        /wiki/pencar                  NONE             103
 pendolar                      /wiki/pendolar                NONE               8
 pendular                      /wiki/pendular                NONE              55
-penedir-se                    /wiki/penedir-se              BOTH            1099
+penedir-se                    /wiki/penedir-se              INCOATIU        1099
 penetrar                      /wiki/penetrar                NONE            3866
 penitenciar                   /wiki/penitenciar             NONE               3
 penjar                        /wiki/penjar                  NONE            5460
@@ -7290,7 +7290,7 @@ reexaminar                    /wiki/reexaminar              NONE              25
 reexpedir                     /wiki/reexpedir               INCOATIU           9
 reexportar                    /wiki/reexportar              NONE              11
 refallar                      /wiki/refallar                NONE               4
-refegir                       /wiki/refegir                 BOTH              16
+refegir                       /wiki/refegir                 INCOATIU          16
 refer                         /wiki/refer                   NONE            2736
 referenciar                   /wiki/referenciar             NONE              18
 referendar                    /wiki/referendar              NONE              47
@@ -7317,7 +7317,7 @@ reformar                      /wiki/reformar                NONE             702
 refractar                     /wiki/refractar               NONE              43
 refredar                      /wiki/refredar                NONE            1174
 refregar                      /wiki/refregar                NONE             324
-refregir                      /wiki/refregir                BOTH               4
+refregir                      /wiki/refregir                INCOATIU           4
 refrenar                      /wiki/refrenar                NONE             186
 refrescar                     /wiki/refrescar               NONE             590
 refrigerar                    /wiki/refrigerar              NONE              66
@@ -7386,7 +7386,7 @@ relaxar                       /wiki/relaxar                 NONE             415
 relegar                       /wiki/relegar                 NONE             182
 relinquir                     /wiki/relinquir               INCOATIU           2
 rellançar                     /wiki/rellan%C3%A7ar          NONE              38
-rellegir                      /wiki/rellegir                BOTH             630
+rellegir                      /wiki/rellegir                INCOATIU         630
 rellentar                     /wiki/rellentar               NONE               2
 rellentir                     /wiki/rellentir               INCOATIU          -1
 rellepar                      /wiki/rellepar                NONE               9
@@ -7442,7 +7442,7 @@ rentussejar                   /wiki/rentussejar             NONE               0
 renunciar                     /wiki/renunciar               NONE            3762
 renyar                        /wiki/renyar                  NONE             956
 renyinar                      /wiki/renyinar                NONE               0
-renyir                        /wiki/renyir                  BOTH             332
+renyir                        /wiki/renyir                  INCOATIU         332
 renyoquejar                   /wiki/renyoquejar             NONE               0
 reobrir                       /wiki/reobrir                 PUR              124
 reocupar                      /wiki/reocupar                NONE               8
@@ -7562,11 +7562,11 @@ retallar                      /wiki/retallar                NONE            1035
 retanyar                      /wiki/retanyar                NONE               1
 retardar                      /wiki/retardar                NONE             834
 retastar                      /wiki/retastar                NONE               0
-reteixir                      /wiki/reteixir                BOTH               1
+reteixir                      /wiki/reteixir                INCOATIU           1
 retemptar                     /wiki/retemptar               NONE               1
 retenir                       /wiki/retenir                 PUR             2937
 retentir                      /wiki/retentir                INCOATIU          11
-retenyir                      /wiki/retenyir                BOTH               9
+retenyir                      /wiki/retenyir                INCOATIU           9
 retintar                      /wiki/retintar                NONE               1
 retirar                       /wiki/retirar                 NONE            4853
 retocar                       /wiki/retocar                 NONE             223
@@ -7627,7 +7627,7 @@ revertir                      /wiki/revertir                INCOATIU         137
 revessar                      /wiki/revessar                NONE               0
 revessegar                    /wiki/revessegar              NONE               0
 revessejar                    /wiki/revessejar              NONE               0
-revestir                      /wiki/revestir                BOTH            1210
+revestir                      /wiki/revestir                INCOATIU        1210
 reveure                       /wiki/reveure                 NONE             524
 revifar                       /wiki/revifar                 NONE             557
 revigoritzar                  /wiki/revigoritzar            NONE               6
@@ -7872,7 +7872,7 @@ situar                        /wiki/situar                  NONE            7436
 soberguejar                   /wiki/soberguejar             NONE               8
 sobrar                        /wiki/sobrar                  NONE            1530
 sobreabundar                  /wiki/sobreabundar            NONE               5
-sobreafegir                   /wiki/sobreafegir             BOTH               6
+sobreafegir                   /wiki/sobreafegir             INCOATIU           6
 sobrealçar                    /wiki/sobreal%C3%A7ar         NONE               1
 sobrealimentar                /wiki/sobrealimentar          NONE              10
 sobreargentar                 /wiki/sobreargentar           NONE               0
@@ -7911,7 +7911,7 @@ sobresembrar                  /wiki/sobresembrar            NONE               1
 sobreseure                    /wiki/sobreseure              NONE              24
 sobresolar                    /wiki/sobresolar              NONE               1
 sobresortir                   /wiki/sobresortir             PUR              967
-sobreteixir                   /wiki/sobreteixir             BOTH               0
+sobreteixir                   /wiki/sobreteixir             INCOATIU           0
 sobrevaler                    /wiki/sobrevaler              NONE               0
 sobrevalorar                  /wiki/sobrevalorar            NONE              85
 sobrevenir                    /wiki/sobrevenir              PUR              548
@@ -7926,7 +7926,7 @@ socórrer                      /wiki/soc%C3%B3rrer           NONE             47
 sodomitzar                    /wiki/sodomitzar              NONE              14
 sofisticar                    /wiki/sofisticar              NONE              43
 sofreginar                    /wiki/sofreginar              NONE               0
-sofregir                      /wiki/sofregir                BOTH             265
+sofregir                      /wiki/sofregir                INCOATIU         265
 sofrenar                      /wiki/sofrenar                NONE               1
 sofrir                        /wiki/sofrir                  INCOATIU        7952
 sogar                         /wiki/sogar                   NONE               2
@@ -8129,7 +8129,7 @@ taxar                         /wiki/taxar                   NONE              84
 teclejar                      /wiki/teclejar                NONE             144
 tecnificar                    /wiki/tecnificar              NONE              15
 teginar                       /wiki/teginar                 NONE               0
-teixir                        /wiki/teixir                  BOTH            1300
+teixir                        /wiki/teixir                  INCOATIU        1300
 telar                         /wiki/telar                   NONE               3
 telecomandar                  /wiki/telecomandar            NONE               2
 teledirigir                   /wiki/teledirigir             INCOATIU           4
@@ -8151,7 +8151,7 @@ tendrejar                     /wiki/tendrejar               NONE               5
 tenir                         /wiki/tenir                   PUR           371371
 tensar                        /wiki/tensar                  NONE             123
 tentinejar                    /wiki/tentinejar              NONE              88
-tenyir                        /wiki/tenyir                  BOTH             739
+tenyir                        /wiki/tenyir                  INCOATIU         739
 teologitzar                   /wiki/teologitzar             NONE               1
 teoritzar                     /wiki/teoritzar               NONE             197
 terbolinar                    /wiki/terbolinar              NONE               2
@@ -8290,7 +8290,7 @@ transposar                    /wiki/transposar              NONE              74
 transsubstanciar              /wiki/transsubstanciar        NONE              14
 transsudar                    /wiki/transsudar              NONE               1
 transvasar                    /wiki/transvasar              NONE              24
-transvestir-se                /wiki/transvestir-se          BOTH              14
+transvestir-se                /wiki/transvestir-se          INCOATIU          14
 tranuitar                     /wiki/tranuitar               NONE               4
 trapellejar                   /wiki/trapellejar             NONE               0
 trasbalsar                    /wiki/trasbalsar              NONE             681
@@ -8500,7 +8500,7 @@ vertebrar                     /wiki/vertebrar               NONE             165
 vesar                         /wiki/vesar                   NONE               2
 vesprejar                     /wiki/vesprejar               NONE              82
 vessar                        /wiki/vessar                  NONE            2328
-vestir                        /wiki/vestir                  BOTH            5565
+vestir                        /wiki/vestir                  INCOATIU        5565
 vetar                         /wiki/vetar                   NONE              60
 vetlar                        /wiki/vetlar                  NONE               0
 vetllar                       /wiki/vetllar                 NONE            2540

@@ -52,7 +52,8 @@ desixo,     deseixir-se,    desixar/desixer/desixir/deseixir
 sobreixo,   sobreeixir,     sobreixar/sobrèixer/sobreixir/sobrir/sobreeixir
 #sotaeixir is missing in verb list
 sotaixo,    ,               sotaixar/sotàixer/sotaixir/sotaeixir
-teixo,      teixir,         teixar/teixer/teixir/tir
+teixo,      ,               teixar/teixer/tir
+teixeixo,   teixir,         teixeixar/teixeixer/teixeixir/teixir
 put,        pudir,          pre/putir/pudir
 impres,     imprimir,       imprar/imprer/imprendre/impreir/imprimir
 vaig,       anar,           anar/vaigir
@@ -88,3 +89,4 @@ corres,     córrer,         corrar/córrer/correndre/correir
 corregut,   córrer,         córrer/corregutir
 serves,     servar,         servar/server/serveure/serveir
 serveixes,  servir,         serveixar/serveixer/serveixeir/servir
+fer,        ,               ferer

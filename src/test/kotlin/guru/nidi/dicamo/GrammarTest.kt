@@ -71,6 +71,58 @@ class GrammarTest {
     }
 
     @ParameterizedTest
+    @CsvSource(
+        textBlock = """
+            millor,     bo/bon
+            optim,      bo/bon
+            pitjor,     mal/dolent
+            pessim,     mal/dolent
+            major,      gran 
+            maxim,      gran
+            menor,      petit
+            minim,      petit
+            superior,   alt
+            suprem,     alt
+            inferior,   baix
+            infim,      baix
+            blauissim,  blau
+            alt,        alt
+"""
+    )
+    fun baseDegreeAdjectiveOf(degree: String, bases: String) {
+        val expectedList = bases.split("/")
+        assertEquals(expectedList, baseDegreeAdjectivesOf(degree))
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        textBlock = """
+            capac,      capac
+            seca,       sec/sece/seco
+            ampla,      ampl/ample/amplo
+            maca,       mac/mace/maco
+            buida,      buid/buide/buido/buit
+            groga,      grog/groge/grogo/groc
+            obliqua,    obliqu/oblique/obliquo/oblic
+            lletja,     lletj/lletje/lletjo/lleig
+            mitja,      mitj/mitje/mitjo/mig
+            boja,       boj/boje/bojo/boig
+            grassa,     grass/grasse/grasso/gras
+            plana,      plan/plane/plano/pla
+            europea,    europe/europee/europeo/europeu,
+            blava,      blav/blave/blavo/blau
+            jueva,      juev/jueve/juevo/jueu
+            viva,       viv/vive/vivo/viu,
+            nova,       nov/nove/novo/nou
+            nulla,      null/nulle/nullo/nul
+"""
+    )
+    fun masculinAdjectivesOf(feminin: String, masculins: String) {
+        val expectedList = masculins.split("/")
+        assertEquals(expectedList, masculinAdjectivesOf(feminin))
+    }
+
+    @ParameterizedTest
     @CsvFileSource(resources = ["verbs.csv"])
     fun testInfinitivesOf(word: String, dict: String?, possible: String?) {
         val dictList = dict?.split("/") ?: listOf()

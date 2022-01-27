@@ -46,11 +46,74 @@ private fun baseInGroup(base: String, ending: String, group: String): String? {
     }
 }
 
-fun baseNounsOf(word: String): List<String> =
-    singularNounsOf(word).flatMap { masculinNounsOf(it) + it } + masculinNounsOf(word)
+fun baseOf(word: String): Collection<String> =
+    (singularNounsOf(word).flatMap { masculinNounsOf(it) } +
+            singularAdjectivesOf(word)
+                .flatMap { masculinAdjectivesOf(it) }
+                .flatMap { baseDegreeAdjectivesOf(it) })
+        .toSet()
+
+fun baseDegreeAdjectivesOf(word: String): List<String> {
+    return when (word) {
+        "millor", "optim" -> listOf("bo", "bon")
+        "pitjor", "pessim" -> listOf("mal", "dolent")
+        "major", "maxim" -> listOf("gran")
+        "menor", "minim" -> listOf("petit")
+        "superior", "suprem" -> listOf("alt")
+        "inferior", "infim" -> listOf("baix")
+        else -> listOf(if (word.endsWith("issim")) word.dropLast(5) else word)
+    }
+}
+
+fun masculinAdjectivesOf(word: String): List<String> {
+    val res = if (!word.endsWith("a")) listOf(word)
+    else word.replaceEnd("a", "") +
+            word.replaceEnd("a", "e") +
+            word.replaceEnd("a", "o") +
+            word.replaceEnd("da", "t") +
+            word.replaceEnd("ga", "c") +
+            word.replaceEnd("qua", "c") +
+            word.replaceEnd("ja") {
+                listOf(
+                    when {
+                        it.endsWith("it") -> it.dropLast(2) + "ig"
+                        it.endsWith("t") -> it.dropLast(1) + "ig"
+                        else -> it + "ig"
+                    }
+                )
+            } +
+            word.replaceEnd("ssa", "s") +
+            word.replaceEnd("na", "") +
+            word.replaceEnd("ea", "eu") +
+            word.replaceEnd("ava", "au") +
+            word.replaceEnd("eva", "eu") +
+            word.replaceEnd("iva", "iu") +
+            word.replaceEnd("ova", "ou") +
+            word.replaceEnd("lla", "l")
+    log.debug("Masculins of '$word': $res")
+    return res
+}
+
+fun singularAdjectivesOf(word: String): List<String> {
+    val res = if (!word.endsWith("s")) listOf(word)
+    else word.replaceEnd("s", "") +
+            word.replaceEnd("sos", "s") +
+            word.replaceEnd("xos", "x") +
+            word.replaceEnd("scos", "sc") +
+            word.replaceEnd("stos", "st") +
+            word.replaceEnd("xtos", "xt") +
+            word.replaceEnd("ns") { if (it.last() in "aeiou") listOf(it) else listOf() } +
+            word.replaceEnd("ssos", "s") +
+            word.replaceEnd("jos", "ig") +
+            word.replaceEnd("itjos", "ig") +
+            word.replaceEnd("es") { it.frontToBack().map { it + "a" } }
+    log.debug("Singulars of '$word': $res")
+    return res
+}
 
 fun masculinNounsOf(word: String): List<String> {
-    val res = word.replaceEnd("a", "") +
+    val res = if (!word.endsWith("a")) listOf(word)
+    else word.replaceEnd("a", "") +
             word.replaceEnd("da", "t") +
             word.replaceEnd("ba", "p") +
             word.replaceEnd("va", "f") +
@@ -62,7 +125,8 @@ fun masculinNounsOf(word: String): List<String> {
 }
 
 fun singularNounsOf(word: String): List<String> {
-    val res = word.replaceEnd("s", "") +
+    val res = if (!word.endsWith("s")) listOf(word)
+    else word.replaceEnd("s", "") +
             word.replaceEnd("sos", "s") +
             word.replaceEnd("xos", "x") +
             word.replaceEnd("scos", "sc") +

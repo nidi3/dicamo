@@ -38,18 +38,20 @@ object DikamoService {
         query.normalize().let { querySingular(it) + queryVerb(it) }
 
     private fun querySingular(query: String): List<List<Entry>> =
-        baseNounsOf(query).mapNotNull { base ->
-            val results = query(base)
-            val entry =
-                if (results.size == 1) results[0][0]
-                else results.find { it[0].word.normalize() == base }?.get(0)
-            entry?.let {
-                listOf(
-                    Entry(entry.link, query),
-                    Entry(entry.link, "(${entry.word})")
-                )
+        baseOf(query)
+            .filter { it != query }
+            .mapNotNull { base ->
+                val results = query(base)
+                val entry =
+                    if (results.size == 1) results[0][0]
+                    else results.find { it[0].word.normalize() == base }?.get(0)
+                entry?.let {
+                    listOf(
+                        Entry(entry.link, query),
+                        Entry(entry.link, "(${entry.word})")
+                    )
+                }
             }
-        }
 
     private fun queryVerb(query: String): List<List<Entry>> = try {
         infinitivesOf(query).let { (dict, guess) ->
@@ -69,23 +71,23 @@ object DikamoService {
         listOf(listOf(Entry(null, e.message ?: "Unknown error")))
     }
 
-    fun fetchEntry(id: String) = formatDocument(fetch(ENTRY_URL, id), "entry").toString()
+    fun fetchEntry(id: String) = fetch(ENTRY_URL, id).format("entry").toString()
 
-    fun fetchConjug(id: String) = formatDocument(fetch(CONJUG_URL, id), "conjug").toString()
+    fun fetchConjug(id: String) = fetch(CONJUG_URL, id).format("conjug").toString()
 
-    private fun formatDocument(document: Document, type: String) =
-        document.select(".CentreTextTD table").apply {
+    private fun Document.format(type: String) =
+        select(".CentreTextTD table").apply {
             addClass(type)
             select(".enc").forEach {
                 val word = it.textNodes().first().text().trim()
-                addAfter(it, wikiLink(document, word))
+                it.addAfter(wikiLink(word))
                 for (lang in listOf("es", "en", "de", "fr", "it").reversed()) {
-                    addAfter(it, translateLink(document, word, lang))
+                    it.addAfter(translateLink(word, lang))
                 }
             }
             select(".verb").forEach {
                 val word = it.textNodes().first().text().trim()
-                addAfter(it, entryLink(document, word.pronounLess()))
+                it.addAfter(entryLink(word.pronounLess()))
             }
             select("font").forEach { it.removeAttr("size") }
             select("br,img").forEach { it.remove() }
@@ -99,21 +101,29 @@ object DikamoService {
                 }
             }
             select(".VFORMA").forEach { span -> span.attr("id", span.text().normalize()) }
+            select("tr").forEach { tr -> tr.select("td").first()?.appendChild(readLink()) }
         }
 
-    private fun addAfter(e: Element, new: Element) = e.parent()!!.insertChildren(e.elementSiblingIndex() + 1, new)
+    private fun Element.addAfter(new: Element) = parent()!!.insertChildren(elementSiblingIndex() + 1, new)
 
-    private fun translateLink(document: Document, word: String, lang: String) =
-        link(document, "https://translate.google.ch/?sl=ca&tl=$lang&text=" + encode(word), "$lang ")
+    private fun Document.translateLink(word: String, lang: String) =
+        link("https://translate.google.ch/?sl=ca&tl=$lang&text=" + encode(word), "$lang ")
 
-    private fun entryLink(document: Document, word: String) =
-        link(document, "/?q=$word&go", "definiciò")
+    private fun Document.entryLink(word: String) =
+        link("/?q=$word&go", "definiciò")
 
-    private fun wikiLink(document: Document, word: String) =
-        link(document, "https://ca.wikipedia.org/wiki/$word", "viquipèdia ")
+    private fun Document.wikiLink(word: String) =
+        link("https://ca.wikipedia.org/wiki/$word", "viquipèdia ")
 
-    private fun link(document: Document, href: String, text: String) =
-        document.createElement("a").apply {
+    private fun Document.readLink() =
+        createElement("div").apply {
+            attr("class", "say")
+            attr("onclick", "say(this)")
+            text("\uD83D\uDD08")
+        }
+
+    private fun Document.link(href: String, text: String) =
+        createElement("a").apply {
             attr("href", href)
             text(text)
         }

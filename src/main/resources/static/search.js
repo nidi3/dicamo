@@ -21,7 +21,7 @@ input.addEventListener('keypress', e => {
 });
 
 async function load(go) {
-  if (input.value.length <= 2) {
+  if (input.value.length <= 1) {
     clear();
   } else {
     try {

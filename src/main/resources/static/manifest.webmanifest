@@ -4,14 +4,17 @@
   "display": "standalone",
   "background_color": "#ffff00",
   "theme_color": "#ffff00",
+  "start_url": "/search.html",
   "icons": [
     {
       "src": "favicon.png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "type": "image/png"
     },
     {
       "src": "favicon.svg",
-      "sizes": "256x256"
+      "sizes": "256x256",
+      "type": "image/svg"
     }
   ]
 }

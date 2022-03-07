@@ -1,8 +1,9 @@
 {
-  "name": "DiCaMo",
+  "name": "Diccionari català mobile",
   "short_name": "DiCaMo",
-  "display": "fullscreen",
+  "display": "standalone",
   "background_color": "#ffff00",
+  "theme_color": "#ffff00",
   "icons": [
     {
       "src": "favicon.png",

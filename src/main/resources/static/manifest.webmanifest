@@ -1,0 +1,16 @@
+{
+  "name": "DiCaMo",
+  "short_name": "DiCaMo",
+  "display": "fullscreen",
+  "background_color": "#ffff00",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "256x256"
+    }
+  ]
+}
